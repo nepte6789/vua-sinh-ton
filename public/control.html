@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/assets/crown.svg" />
+    <title>Điều khiển · VUA SINH TỒN</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="/assets/control.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">♛</div>
+      <div>
+        <p class="eyebrow">PHÒNG ĐIỀU HÀNH · TIKTOK LIVE</p>
+        <h1>VUA SINH TỒN</h1>
+        <p>Giữ nhịp cuộc chơi. Để kiến thức quyết định nhà vô địch.</p>
+      </div>
+      <a class="button primary" href="/overlay.html" target="survival-overlay"
+        >Mở màn hình đảo ↗</a
+      >
+    </header>
+    <div class="status-strip">
+      <span id="serverStatus" class="status">Server: đang kết nối</span
+      ><span id="liveStatus" class="status">TikTok: chưa kết nối</span
+      ><span class="status" id="phaseStatus">Sảnh chờ</span
+      ><span class="status" id="playerCount">0/200 trên đảo</span>
+    </div>
+    <div id="notice" role="status"></div>
+    <main class="layout">
+      <section class="card connection">
+        <div class="section-title">
+          <span>01</span>
+          <h2>Kết nối TikTok LIVE</h2>
+        </div>
+        <label for="channel">Link kênh hoặc @username</label>
+        <div class="row">
+          <input
+            id="channel"
+            placeholder="https://www.tiktok.com/@tenkenh/live"
+          /><button id="connect" class="primary">Kết nối</button
+          ><button id="disconnect">Ngắt</button>
+        </div>
+        <p id="autoStatus" class="hint">
+          API key EulerStream dùng biến môi trường trên server.
+        </p>
+        <p class="hint">
+          Bình luận VÔ để tham gia bất kỳ câu nào. Đủ 200 người thì xếp hàng
+          chờ; khi có chỗ trống sẽ tự lên theo thứ tự.
+        </p>
+        <div class="callout">
+          <b>Luật mới</b>
+          <p>
+            Không trả lời 3 câu liên tiếp: rời đảo.<br />Sau đủ 6 câu trên đảo:
+            đúng ít nhất 3 trong 6 câu gần nhất để ở lại.<br />Bị loại có thể
+            bình luận VÔ để tham gia lại.
+          </p>
+        </div>
+      </section>
+      <section class="card">
+        <div class="section-title">
+          <span>02</span>
+          <h2>Điều khiển ván</h2>
+        </div>
+        <div class="row">
+          <label class="grow"
+            >Chủ đề<select id="category">
+              <option value="mixed">Tổng hợp tất cả chủ đề</option>
+            </select></label
+          ><label class="checkbox"
+            ><input type="checkbox" id="autoNext" checked /> Tự sang câu sau 5
+            giây đáp án</label
+          >
+        </div>
+        <div class="game-stats">
+          <div><b id="roundStat">1</b><small>Ván</small></div>
+          <div><b id="questionStat">0/20</b><small>Câu hỏi</small></div>
+          <div><b id="timeStat">20</b><small>Giây còn lại</small></div>
+          <div><b id="lockedStat">0</b><small>Đã chốt</small></div>
+        </div>
+        <div class="controls">
+          <button id="start" class="primary">▶ Bắt đầu ván</button
+          ><button id="pause">Ⅱ Tạm dừng</button
+          ><button id="resume">▶ Tiếp tục</button
+          ><button id="reveal">Chốt đáp án</button
+          ><button id="next">Câu tiếp theo →</button
+          ><button id="newRound" class="danger">Ván mới</button>
+        </div>
+        <p id="currentQuestion" class="current-question">
+          Đảo đang chờ người chơi…
+        </p>
+        <label class="checkbox"
+          ><input type="checkbox" id="voice" checked /> Đọc câu hỏi và đáp án
+          bằng giọng nữ Hoài My</label
+        >
+        <p class="hint">
+          Bấm bật giọng đọc trên màn hình đảo một lần. Nếu dịch vụ Edge lỗi, thử
+          giọng Việt đã cài trên máy.
+        </p>
+      </section>
+      <section class="card">
+        <div class="section-title">
+          <span>03</span>
+          <h2>Thử game trước khi LIVE</h2>
+        </div>
+        <label for="simName">Tên người chơi thử</label
+        ><input id="simName" value="Minh Anh" /><label for="simText"
+          >Bình luận</label
+        >
+        <div class="row">
+          <input id="simText" value="VÔ" /><button id="send">Gửi</button>
+        </div>
+        <div class="controls">
+          <button id="join">VÔ lên đảo</button
+          ><button id="correct">Trả lời đúng câu hiện tại</button
+          ><button id="fill12">+12 người thử</button
+          ><button id="fill200">Thử đủ 200 người</button
+          ><button id="bots">Bật bot trả lời</button>
+        </div>
+        <p class="hint">
+          Dữ liệu mô phỏng được đánh dấu riêng. Không tạo bình luận hoặc người
+          xem trên TikTok.
+        </p>
+      </section>
+      <section class="card">
+        <div class="section-title">
+          <span>04</span>
+          <h2>Nhịp trận đấu</h2>
+        </div>
+        <div class="mini-stats">
+          <span id="waitingStat">Hàng chờ: 0</span
+          ><span id="outStat">Đã rời đảo: 0</span
+          ><span id="chatStat">Chat TikTok: 0</span>
+        </div>
+        <div id="feed" class="feed"></div>
+        <div class="rules">
+          <b>+10</b> điểm cho câu đúng · ưu tiên người trả lời nhanh nếu bằng
+          điểm.<br />Chỉ tính câu trả lời đầu tiên, không phân biệt hoa/thường
+          hay dấu tiếng Việt. Với câu Toán, trả lời bằng số.
+        </div>
+      </section>
+      <section class="card full">
+        <div class="section-title">
+          <span>05</span>
+          <h2>Người chơi & xếp hạng</h2>
+          <input id="filter" placeholder="Tìm tên người chơi…" />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Hạng</th>
+                <th>Người chơi</th>
+                <th>Vị trí</th>
+                <th>Điểm</th>
+                <th>Đúng/6 gần nhất</th>
+                <th>Vắng liên tiếp</th>
+                <th>Nguồn</th>
+              </tr>
+            </thead>
+            <tbody id="players"></tbody>
+          </table>
+        </div>
+        <p class="hint" id="tableMore"></p>
+      </section>
+      <section class="card full">
+        <div class="section-title">
+          <span>06</span>
+          <h2>Ngân hàng câu hỏi</h2>
+          <span class="tag" id="bankCount">120 câu · 6 chủ đề</span>
+        </div>
+        <p class="hint">
+          Mỗi chủ đề cần ít nhất 20 câu để mở ván. Có thể đổi câu hỏi khi ở sảnh
+          hoặc sau khi kết thúc ván. Đáp án phụ ngăn cách bằng dấu |.
+        </p>
+        <div class="bank-grid">
+          <div>
+            <label for="questionSelect">Chọn câu để sửa</label
+            ><select id="questionSelect"></select>
+            <div class="controls">
+              <button id="newQuestion">+ Câu mới</button
+              ><button id="deleteQuestion" class="danger">
+                Xóa câu đang chọn
+              </button>
+            </div>
+            <label
+              >Nhập file JSON<input
+                id="importFile"
+                type="file"
+                accept=".json,application/json" /></label
+            ><button id="export">Tải bộ câu hỏi JSON ↓</button>
+          </div>
+          <form id="questionForm">
+            <input id="questionId" type="hidden" /><label
+              >Chủ đề<input
+                id="questionCategory"
+                required
+                maxlength="60" /></label
+            ><label
+              >Câu hỏi<textarea
+                id="questionPrompt"
+                required
+                maxlength="500"
+                rows="2"
+              ></textarea></label
+            ><label
+              >Đáp án đúng / các cách viết khác<input
+                id="questionAnswers"
+                placeholder="Ca cao | cacao"
+                required /></label
+            ><label
+              >Giải thích<textarea id="questionExplanation" rows="2"></textarea>
+            </label>
+            <div class="controls">
+              <button type="submit">Cập nhật bản nháp</button
+              ><button id="saveBank" type="button" class="primary">
+                Lưu bộ câu hỏi vào server
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section class="card full">
+        <div class="section-title">
+          <span>07</span>
+          <h2>Nhật ký kết nối</h2>
+        </div>
+        <pre id="logs"></pre>
+      </section>
+    </main>
+    <footer>
+      VUA SINH TỒN · 200 người trên đảo · 20 giây mỗi câu · Đúng 3/6 để ở lại
+    </footer>
+    <script src="/assets/live-socket.js"></script>
+    <script src="/assets/control.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "vua-sinh-ton",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Game đố vui sinh tồn trên đảo dành cho TikTok LIVE",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "ws": "8.18.0",
+    "tiktok-live-connector": "2.5.0",
+    "msedge-tts": "2.1.1"
+  }
+}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/assets/crown.svg" />
+    <title>VUA SINH TỒN · Đảo kiến thức</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="/assets/game.css" />
+  </head>
+  <body class="overlay-page">
+    <main id="stage">
+      <header class="show-header">
+        <div class="brand">
+          <span class="crown">♛</span>
+          <div>
+            <small>ĐẢO KIẾN THỨC · TIKTOK LIVE</small>
+            <h1>VUA SINH TỒN</h1>
+          </div>
+        </div>
+        <div class="top-pills">
+          <b id="round">Ván 1</b><b class="gold" id="population">🌴 0/200</b>
+        </div>
+      </header>
+      <section class="question-card">
+        <div class="question-meta">
+          <span id="topic">✦ Tổng hợp</span
+          ><span id="phase">SẴN SÀNG KHỞI HÀNH</span>
+        </div>
+        <h2 id="prompt">Bạn đã sẵn sàng<br />trở thành vua sinh tồn?</h2>
+        <div id="answerSlots" class="answer-slots"></div>
+        <div id="reveal" hidden>
+          <b id="answer"></b>
+          <p id="explanation"></p>
+        </div>
+        <div class="question-bottom">
+          <div class="timer-track">
+            <div id="timerBar"></div>
+            <strong id="seconds">20</strong>
+          </div>
+          <span id="locked">✍ 0/0 đã chốt</span>
+        </div>
+      </section>
+      <div id="joinBanner" class="join-banner">
+        📜 Bình luận <b>VÔ</b> để lên đảo · tham gia bất kỳ lúc nào
+      </div>
+      <section class="island-area">
+        <div class="island-glow"></div>
+        <div class="ocean-wave w1"></div>
+        <div class="ocean-wave w2"></div>
+        <div class="palm palm-left">🌴</div>
+        <div class="palm palm-right">🌴</div>
+        <div id="island" class="island"></div>
+        <div id="emptyIsland">
+          <span>🏝️</span><b>200 chỗ trên đảo</b>
+          <p>Chờ những nhà sinh tồn đầu tiên…</p>
+        </div>
+        <span class="island-caption">ĐẢO SINH TỒN</span>
+      </section>
+      <div id="ticker" class="ticker">Chào mừng bạn đến với đảo kiến thức!</div>
+      <section class="bottom-panels">
+        <div class="waiting-card">
+          <div class="panel-heading">
+            <h3>🛟 HÀNG CHỜ <span id="waitingCount">0</span></h3>
+            <small id="rescueRule">Tự lên theo thứ tự khi đảo còn chỗ</small>
+          </div>
+          <div id="waiting" class="waiting"></div>
+          <p id="waitingEmpty">Cùng trả lời để giành vé lên đảo.</p>
+        </div>
+        <div class="ranking-card">
+          <h3>🏆 TOP ĐIỂM</h3>
+          <ol id="ranking"></ol>
+        </div>
+      </section>
+      <footer class="show-footer">
+        <b>⌨ Chỉ tính lần trả lời đầu tiên</b
+        ><span>Đúng ≥3/6 câu · Vắng 3 câu liên tiếp: rời đảo</span>
+      </footer>
+      <div class="lower-line">
+        <span id="liveStatus">Đang kết nối server…</span
+        ><span id="clock"></span>
+      </div>
+      <button id="soundButton">🔊 Bật giọng đọc câu hỏi</button>
+      <div id="audioWarning" role="status"></div>
+      <div id="winner" hidden>
+        <small>NHÀ VÔ ĐỊCH VÁN NÀY</small>
+        <h2 id="winnerName"></h2>
+        <p id="winnerPoints"></p>
+        <span>Hẹn gặp lại ở ván tiếp theo!</span>
+      </div>
+    </main>
+    <script src="/assets/live-socket.js"></script>
+    <script src="/assets/voice-queue.js"></script>
+    <script src="/assets/overlay.js"></script>
+  </body>
+</html>

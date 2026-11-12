@@ -1,0 +1,1140 @@
+[
+  {
+    "id": "q001",
+    "category": "Ẩm thực",
+    "prompt": "Sô-cô-la được làm từ hạt gì?",
+    "answers": [
+      "Ca cao"
+    ],
+    "explanation": "Hạt ca cao là nguyên liệu chính để làm sô-cô-la."
+  },
+  {
+    "id": "q002",
+    "category": "Ẩm thực",
+    "prompt": "Món sushi gắn liền với quốc gia nào?",
+    "answers": [
+      "Nhật Bản"
+    ],
+    "explanation": "Sushi là món ăn nổi tiếng của Nhật Bản."
+  },
+  {
+    "id": "q003",
+    "category": "Ẩm thực",
+    "prompt": "Đậu phụ thường được làm từ loại đậu nào?",
+    "answers": [
+      "Đậu nành",
+      "Đậu tương"
+    ],
+    "explanation": "Sữa đậu nành được làm đông để tạo thành đậu phụ."
+  },
+  {
+    "id": "q004",
+    "category": "Ẩm thực",
+    "prompt": "Nước mắm truyền thống thường ủ từ cá và nguyên liệu gì?",
+    "answers": [
+      "Muối"
+    ],
+    "explanation": "Cá và muối được ủ để tạo nước mắm."
+  },
+  {
+    "id": "q005",
+    "category": "Ẩm thực",
+    "prompt": "Bánh chưng truyền thống thường có hình gì?",
+    "answers": [
+      "Vuông",
+      "Hình vuông"
+    ],
+    "explanation": "Bánh chưng thường được gói thành khối vuông."
+  },
+  {
+    "id": "q006",
+    "category": "Ẩm thực",
+    "prompt": "Bánh tét truyền thống thường có dạng hình gì?",
+    "answers": [
+      "Trụ",
+      "Hình trụ",
+      "Đòn"
+    ],
+    "explanation": "Bánh tét được gói thành đòn dài hình trụ."
+  },
+  {
+    "id": "q007",
+    "category": "Ẩm thực",
+    "prompt": "Phở thường dùng thịt bò hoặc loại thịt gia cầm nào?",
+    "answers": [
+      "Gà",
+      "Thịt gà"
+    ],
+    "explanation": "Phở bò và phở gà là hai loại phổ biến."
+  },
+  {
+    "id": "q008",
+    "category": "Ẩm thực",
+    "prompt": "Trái cây có vỏ gai lớn, mùi đặc trưng và múi vàng là quả gì?",
+    "answers": [
+      "Sầu riêng"
+    ],
+    "explanation": "Sầu riêng nổi tiếng với mùi đặc trưng."
+  },
+  {
+    "id": "q009",
+    "category": "Ẩm thực",
+    "prompt": "Món pizza gắn liền với quốc gia nào?",
+    "answers": [
+      "Ý",
+      "Italia",
+      "Italy"
+    ],
+    "explanation": "Pizza hiện đại có nguồn gốc từ nước Ý."
+  },
+  {
+    "id": "q010",
+    "category": "Ẩm thực",
+    "prompt": "Bột làm bánh mì thông thường chủ yếu từ hạt gì?",
+    "answers": [
+      "Lúa mì"
+    ],
+    "explanation": "Bột mì được xay từ hạt lúa mì."
+  },
+  {
+    "id": "q011",
+    "category": "Ẩm thực",
+    "prompt": "Loại gạo dùng phổ biến để nấu xôi là gạo gì?",
+    "answers": [
+      "Nếp",
+      "Gạo nếp"
+    ],
+    "explanation": "Gạo nếp tạo độ dẻo đặc trưng cho xôi."
+  },
+  {
+    "id": "q012",
+    "category": "Ẩm thực",
+    "prompt": "Bún bò Huế gắn với địa danh nào?",
+    "answers": [
+      "Huế"
+    ],
+    "explanation": "Tên món ăn gắn với thành phố Huế."
+  },
+  {
+    "id": "q013",
+    "category": "Ẩm thực",
+    "prompt": "Bánh pía Sóc Trăng thường có nhân đậu xanh và trái cây mùi mạnh nào?",
+    "answers": [
+      "Sầu riêng"
+    ],
+    "explanation": "Sầu riêng thường được dùng tạo hương cho nhân bánh pía."
+  },
+  {
+    "id": "q014",
+    "category": "Ẩm thực",
+    "prompt": "Cà phê sữa đá gồm cà phê, đá và nguyên liệu ngọt nào?",
+    "answers": [
+      "Sữa đặc"
+    ],
+    "explanation": "Sữa đặc tạo vị ngọt và béo cho cà phê sữa đá."
+  },
+  {
+    "id": "q015",
+    "category": "Ẩm thực",
+    "prompt": "Món kim chi gắn liền với quốc gia nào?",
+    "answers": [
+      "Hàn Quốc"
+    ],
+    "explanation": "Kim chi là món rau củ lên men tiêu biểu của Hàn Quốc."
+  },
+  {
+    "id": "q016",
+    "category": "Ẩm thực",
+    "prompt": "Mật ong do loài côn trùng nào tạo ra?",
+    "answers": [
+      "Ong"
+    ],
+    "explanation": "Ong thu mật hoa và tạo ra mật ong."
+  },
+  {
+    "id": "q017",
+    "category": "Ẩm thực",
+    "prompt": "Nước cốt dừa được vắt từ phần cơm của quả gì?",
+    "answers": [
+      "Dừa"
+    ],
+    "explanation": "Cơm dừa xay được vắt lấy nước cốt."
+  },
+  {
+    "id": "q018",
+    "category": "Ẩm thực",
+    "prompt": "Tinh bột làm trân châu thông thường chủ yếu là bột gì?",
+    "answers": [
+      "Bột năng",
+      "Năng"
+    ],
+    "explanation": "Bột năng giúp trân châu có độ dai."
+  },
+  {
+    "id": "q019",
+    "category": "Ẩm thực",
+    "prompt": "Món cốm Hà Nội làm từ hạt lúa còn non, thường là lúa gì?",
+    "answers": [
+      "Nếp",
+      "Lúa nếp"
+    ],
+    "explanation": "Cốm truyền thống thường làm từ lúa nếp non."
+  },
+  {
+    "id": "q020",
+    "category": "Ẩm thực",
+    "prompt": "Gia vị có vị cay, thường xay từ hạt đen hoặc trắng là gì?",
+    "answers": [
+      "Tiêu",
+      "Hạt tiêu"
+    ],
+    "explanation": "Hạt tiêu là gia vị cay và thơm."
+  },
+  {
+    "id": "q021",
+    "category": "Địa lý",
+    "prompt": "Thủ đô của Việt Nam là thành phố nào?",
+    "answers": [
+      "Hà Nội"
+    ],
+    "explanation": "Hà Nội là thủ đô Việt Nam."
+  },
+  {
+    "id": "q022",
+    "category": "Địa lý",
+    "prompt": "Thủ đô Nhật Bản là gì?",
+    "answers": [
+      "Tokyo",
+      "Tô ky ô"
+    ],
+    "explanation": "Tokyo là thủ đô Nhật Bản."
+  },
+  {
+    "id": "q023",
+    "category": "Địa lý",
+    "prompt": "Thủ đô nước Pháp là gì?",
+    "answers": [
+      "Paris",
+      "Pa ri"
+    ],
+    "explanation": "Paris là thủ đô nước Pháp."
+  },
+  {
+    "id": "q024",
+    "category": "Địa lý",
+    "prompt": "Thủ đô Thái Lan là gì?",
+    "answers": [
+      "Bangkok",
+      "Băng Cốc"
+    ],
+    "explanation": "Bangkok là thủ đô Thái Lan."
+  },
+  {
+    "id": "q025",
+    "category": "Địa lý",
+    "prompt": "Thủ đô Hàn Quốc là gì?",
+    "answers": [
+      "Seoul",
+      "Xơ un"
+    ],
+    "explanation": "Seoul là thủ đô Hàn Quốc."
+  },
+  {
+    "id": "q026",
+    "category": "Địa lý",
+    "prompt": "Thủ đô nước Ý là gì?",
+    "answers": [
+      "Roma",
+      "Rome",
+      "Rô ma"
+    ],
+    "explanation": "Rome là thủ đô nước Ý."
+  },
+  {
+    "id": "q027",
+    "category": "Địa lý",
+    "prompt": "Thủ đô nước Anh là gì?",
+    "answers": [
+      "London",
+      "Luân Đôn"
+    ],
+    "explanation": "London là thủ đô nước Anh."
+  },
+  {
+    "id": "q028",
+    "category": "Địa lý",
+    "prompt": "Thủ đô Canada là gì?",
+    "answers": [
+      "Ottawa"
+    ],
+    "explanation": "Ottawa là thủ đô Canada."
+  },
+  {
+    "id": "q029",
+    "category": "Địa lý",
+    "prompt": "Thủ đô Australia là gì?",
+    "answers": [
+      "Canberra"
+    ],
+    "explanation": "Canberra là thủ đô Australia, không phải Sydney."
+  },
+  {
+    "id": "q030",
+    "category": "Địa lý",
+    "prompt": "Kim tự tháp Giza nằm ở quốc gia nào?",
+    "answers": [
+      "Ai Cập",
+      "Egypt"
+    ],
+    "explanation": "Quần thể kim tự tháp Giza nằm ở Ai Cập."
+  },
+  {
+    "id": "q031",
+    "category": "Địa lý",
+    "prompt": "Đại dương lớn nhất thế giới là gì?",
+    "answers": [
+      "Thái Bình Dương"
+    ],
+    "explanation": "Thái Bình Dương có diện tích lớn nhất."
+  },
+  {
+    "id": "q032",
+    "category": "Địa lý",
+    "prompt": "Đỉnh núi cao nhất thế giới so với mực nước biển là gì?",
+    "answers": [
+      "Everest",
+      "Ê vơ rét"
+    ],
+    "explanation": "Everest cao khoảng 8.849 mét."
+  },
+  {
+    "id": "q033",
+    "category": "Địa lý",
+    "prompt": "Châu lục có diện tích lớn nhất là châu nào?",
+    "answers": [
+      "Châu Á",
+      "Á"
+    ],
+    "explanation": "Châu Á là châu lục lớn nhất."
+  },
+  {
+    "id": "q034",
+    "category": "Địa lý",
+    "prompt": "Sa mạc Sahara nằm ở châu lục nào?",
+    "answers": [
+      "Châu Phi",
+      "Phi"
+    ],
+    "explanation": "Sahara nằm ở phía bắc châu Phi."
+  },
+  {
+    "id": "q035",
+    "category": "Địa lý",
+    "prompt": "Núi Phú Sĩ nằm ở nước nào?",
+    "answers": [
+      "Nhật Bản"
+    ],
+    "explanation": "Phú Sĩ là ngọn núi nổi tiếng của Nhật Bản."
+  },
+  {
+    "id": "q036",
+    "category": "Địa lý",
+    "prompt": "Tháp Eiffel nằm ở thành phố nào?",
+    "answers": [
+      "Paris",
+      "Pa ri"
+    ],
+    "explanation": "Tháp Eiffel là biểu tượng của Paris."
+  },
+  {
+    "id": "q037",
+    "category": "Địa lý",
+    "prompt": "Sông Hương chảy qua thành phố nào của Việt Nam?",
+    "answers": [
+      "Huế"
+    ],
+    "explanation": "Sông Hương gắn với thành phố Huế."
+  },
+  {
+    "id": "q038",
+    "category": "Địa lý",
+    "prompt": "Vịnh Hạ Long thuộc tỉnh nào?",
+    "answers": [
+      "Quảng Ninh"
+    ],
+    "explanation": "Vịnh Hạ Long thuộc Quảng Ninh."
+  },
+  {
+    "id": "q039",
+    "category": "Địa lý",
+    "prompt": "Đà Lạt thuộc tỉnh Lâm Đồng, nằm trên cao nguyên nào?",
+    "answers": [
+      "Lâm Viên",
+      "Lang Biang"
+    ],
+    "explanation": "Đà Lạt nằm trên cao nguyên Lâm Viên."
+  },
+  {
+    "id": "q040",
+    "category": "Địa lý",
+    "prompt": "Quốc gia có hình chiếc ủng trên bản đồ châu Âu là nước nào?",
+    "answers": [
+      "Ý",
+      "Italia",
+      "Italy"
+    ],
+    "explanation": "Bán đảo Italy có hình dáng giống chiếc ủng."
+  },
+  {
+    "id": "q041",
+    "category": "Động vật",
+    "prompt": "Loài thú lớn nhất đang sống trên Trái Đất là gì?",
+    "answers": [
+      "Cá voi xanh"
+    ],
+    "explanation": "Cá voi xanh là động vật lớn nhất còn sống."
+  },
+  {
+    "id": "q042",
+    "category": "Động vật",
+    "prompt": "Gấu trúc khổng lồ ăn chủ yếu loại cây nào?",
+    "answers": [
+      "Tre",
+      "Trúc"
+    ],
+    "explanation": "Tre trúc là thức ăn chủ yếu của gấu trúc khổng lồ."
+  },
+  {
+    "id": "q043",
+    "category": "Động vật",
+    "prompt": "Loài chim nổi tiếng có thể bắt chước tiếng người là gì?",
+    "answers": [
+      "Vẹt"
+    ],
+    "explanation": "Nhiều loài vẹt có thể bắt chước âm thanh."
+  },
+  {
+    "id": "q044",
+    "category": "Động vật",
+    "prompt": "Động vật có vòi dài là con gì?",
+    "answers": [
+      "Voi"
+    ],
+    "explanation": "Voi dùng vòi để thở, ngửi và cầm nắm."
+  },
+  {
+    "id": "q045",
+    "category": "Động vật",
+    "prompt": "Động vật có cổ rất dài, thường sống ở châu Phi là gì?",
+    "answers": [
+      "Hươu cao cổ"
+    ],
+    "explanation": "Hươu cao cổ có chiếc cổ đặc biệt dài."
+  },
+  {
+    "id": "q046",
+    "category": "Động vật",
+    "prompt": "Con gì mang nhà trên lưng và di chuyển chậm, có râu?",
+    "answers": [
+      "Ốc sên"
+    ],
+    "explanation": "Ốc sên mang vỏ bảo vệ trên lưng."
+  },
+  {
+    "id": "q047",
+    "category": "Động vật",
+    "prompt": "Chim không bay, sống nhiều ở Nam Cực là chim gì?",
+    "answers": [
+      "Cánh cụt",
+      "Chim cánh cụt"
+    ],
+    "explanation": "Nhiều loài cánh cụt sống ở vùng Nam Cực."
+  },
+  {
+    "id": "q048",
+    "category": "Động vật",
+    "prompt": "Loài thú duy nhất có khả năng bay chủ động là gì?",
+    "answers": [
+      "Dơi"
+    ],
+    "explanation": "Dơi là thú có khả năng bay chủ động."
+  },
+  {
+    "id": "q049",
+    "category": "Động vật",
+    "prompt": "Con gì có tám chân và giăng tơ bắt mồi?",
+    "answers": [
+      "Nhện"
+    ],
+    "explanation": "Nhện có tám chân."
+  },
+  {
+    "id": "q050",
+    "category": "Động vật",
+    "prompt": "Loài côn trùng tạo ra tơ để dệt lụa là gì?",
+    "answers": [
+      "Tằm"
+    ],
+    "explanation": "Tằm nhả tơ tạo kén."
+  },
+  {
+    "id": "q051",
+    "category": "Động vật",
+    "prompt": "Con non của ếch trước khi mọc chân gọi là gì?",
+    "answers": [
+      "Nòng nọc"
+    ],
+    "explanation": "Ếch trải qua giai đoạn nòng nọc."
+  },
+  {
+    "id": "q052",
+    "category": "Động vật",
+    "prompt": "Loài thú có túi, nổi tiếng ở Australia, thường nhảy bằng hai chân sau là gì?",
+    "answers": [
+      "Kangaroo",
+      "Chuột túi"
+    ],
+    "explanation": "Kangaroo còn được gọi là chuột túi."
+  },
+  {
+    "id": "q053",
+    "category": "Động vật",
+    "prompt": "Con gì thay đổi màu da, có mắt xoay gần độc lập?",
+    "answers": [
+      "Tắc kè hoa"
+    ],
+    "explanation": "Tắc kè hoa có khả năng thay đổi màu da."
+  },
+  {
+    "id": "q054",
+    "category": "Động vật",
+    "prompt": "Cá thở bằng cơ quan nào?",
+    "answers": [
+      "Mang"
+    ],
+    "explanation": "Cá lấy oxy hòa tan qua mang."
+  },
+  {
+    "id": "q055",
+    "category": "Động vật",
+    "prompt": "Loài chim đực thường có đuôi xòe rực rỡ là gì?",
+    "answers": [
+      "Công",
+      "Chim công"
+    ],
+    "explanation": "Chim công đực có bộ đuôi đặc sắc."
+  },
+  {
+    "id": "q056",
+    "category": "Động vật",
+    "prompt": "Con gì có mai cứng và có thể rụt đầu vào mai?",
+    "answers": [
+      "Rùa"
+    ],
+    "explanation": "Mai là lớp bảo vệ đặc trưng của rùa."
+  },
+  {
+    "id": "q057",
+    "category": "Động vật",
+    "prompt": "Con gì là bạn nuôi trong nhà, thường kêu meo meo?",
+    "answers": [
+      "Mèo"
+    ],
+    "explanation": "Mèo là vật nuôi phổ biến."
+  },
+  {
+    "id": "q058",
+    "category": "Động vật",
+    "prompt": "Loài vật nuôi thường sủa gâu gâu là gì?",
+    "answers": [
+      "Chó"
+    ],
+    "explanation": "Chó thường dùng tiếng sủa để giao tiếp."
+  },
+  {
+    "id": "q059",
+    "category": "Động vật",
+    "prompt": "Bướm trưởng thành phát triển từ con gì?",
+    "answers": [
+      "Sâu",
+      "Sâu bướm"
+    ],
+    "explanation": "Sâu bướm hóa nhộng trước khi thành bướm."
+  },
+  {
+    "id": "q060",
+    "category": "Động vật",
+    "prompt": "Động vật săn mồi họ mèo có bờm ở con đực là gì?",
+    "answers": [
+      "Sư tử"
+    ],
+    "explanation": "Sư tử đực thường có bờm."
+  },
+  {
+    "id": "q061",
+    "category": "Khoa học",
+    "prompt": "Công thức H2O chỉ chất gì?",
+    "answers": [
+      "Nước"
+    ],
+    "explanation": "Một phân tử nước gồm hai nguyên tử hydro và một oxy."
+  },
+  {
+    "id": "q062",
+    "category": "Khoa học",
+    "prompt": "Hành tinh được gọi là hành tinh đỏ là gì?",
+    "answers": [
+      "Sao Hỏa"
+    ],
+    "explanation": "Màu đỏ của sao Hỏa liên quan tới oxit sắt."
+  },
+  {
+    "id": "q063",
+    "category": "Khoa học",
+    "prompt": "Ngôi sao gần Trái Đất nhất là gì?",
+    "answers": [
+      "Mặt Trời"
+    ],
+    "explanation": "Mặt Trời là ngôi sao gần Trái Đất nhất."
+  },
+  {
+    "id": "q064",
+    "category": "Khoa học",
+    "prompt": "Vật thể tự nhiên quay quanh Trái Đất là gì?",
+    "answers": [
+      "Mặt Trăng"
+    ],
+    "explanation": "Mặt Trăng là vệ tinh tự nhiên của Trái Đất."
+  },
+  {
+    "id": "q065",
+    "category": "Khoa học",
+    "prompt": "Khí con người cần lấy vào để hô hấp là gì?",
+    "answers": [
+      "Oxy",
+      "Oxi",
+      "Oxygen"
+    ],
+    "explanation": "Cơ thể cần oxy cho hoạt động sống."
+  },
+  {
+    "id": "q066",
+    "category": "Khoa học",
+    "prompt": "Cơ quan bơm máu đi khắp cơ thể là gì?",
+    "answers": [
+      "Tim"
+    ],
+    "explanation": "Tim co bóp để bơm máu."
+  },
+  {
+    "id": "q067",
+    "category": "Khoa học",
+    "prompt": "Cơ quan chính điều khiển hoạt động cơ thể là gì?",
+    "answers": [
+      "Não",
+      "Bộ não"
+    ],
+    "explanation": "Não là trung tâm của hệ thần kinh."
+  },
+  {
+    "id": "q068",
+    "category": "Khoa học",
+    "prompt": "Cây xanh dùng ánh sáng để tạo chất hữu cơ qua quá trình gì?",
+    "answers": [
+      "Quang hợp"
+    ],
+    "explanation": "Quang hợp sử dụng năng lượng ánh sáng."
+  },
+  {
+    "id": "q069",
+    "category": "Khoa học",
+    "prompt": "Nước tinh khiết sôi ở bao nhiêu độ C tại áp suất 1 atm?",
+    "answers": [
+      "100",
+      "100 độ",
+      "100 độ C"
+    ],
+    "explanation": "Ở áp suất 1 atm, nước tinh khiết sôi ở 100 độ C."
+  },
+  {
+    "id": "q070",
+    "category": "Khoa học",
+    "prompt": "Nước tinh khiết đóng băng ở bao nhiêu độ C tại áp suất thường?",
+    "answers": [
+      "0",
+      "0 độ",
+      "0 độ C"
+    ],
+    "explanation": "Nước tinh khiết đóng băng khoảng 0 độ C."
+  },
+  {
+    "id": "q071",
+    "category": "Khoa học",
+    "prompt": "Kim loại có ký hiệu hóa học Fe là gì?",
+    "answers": [
+      "Sắt"
+    ],
+    "explanation": "Fe là ký hiệu của sắt."
+  },
+  {
+    "id": "q072",
+    "category": "Khoa học",
+    "prompt": "Kim loại có ký hiệu hóa học Au là gì?",
+    "answers": [
+      "Vàng"
+    ],
+    "explanation": "Au là ký hiệu của vàng."
+  },
+  {
+    "id": "q073",
+    "category": "Khoa học",
+    "prompt": "Lực hút vật về phía Trái Đất thường gọi là gì?",
+    "answers": [
+      "Trọng lực"
+    ],
+    "explanation": "Trọng lực là lực hấp dẫn của Trái Đất tác dụng lên vật."
+  },
+  {
+    "id": "q074",
+    "category": "Khoa học",
+    "prompt": "Dụng cụ đo nhiệt độ gọi là gì?",
+    "answers": [
+      "Nhiệt kế"
+    ],
+    "explanation": "Nhiệt kế dùng để đo nhiệt độ."
+  },
+  {
+    "id": "q075",
+    "category": "Khoa học",
+    "prompt": "Dụng cụ quan sát vật rất nhỏ gọi là gì?",
+    "answers": [
+      "Kính hiển vi"
+    ],
+    "explanation": "Kính hiển vi phóng đại các vật thể rất nhỏ."
+  },
+  {
+    "id": "q076",
+    "category": "Khoa học",
+    "prompt": "Dụng cụ quan sát thiên thể ở xa gọi là gì?",
+    "answers": [
+      "Kính thiên văn"
+    ],
+    "explanation": "Kính thiên văn hỗ trợ quan sát bầu trời."
+  },
+  {
+    "id": "q077",
+    "category": "Khoa học",
+    "prompt": "Đơn vị đo cường độ dòng điện trong hệ SI là gì?",
+    "answers": [
+      "Ampe",
+      "Ampere",
+      "A"
+    ],
+    "explanation": "Ampe là đơn vị cường độ dòng điện."
+  },
+  {
+    "id": "q078",
+    "category": "Khoa học",
+    "prompt": "Năng lượng từ gió thường được khai thác bằng thiết bị quay nào?",
+    "answers": [
+      "Tuabin",
+      "Tua bin",
+      "Tuabin gió"
+    ],
+    "explanation": "Tuabin gió chuyển năng lượng gió thành điện."
+  },
+  {
+    "id": "q079",
+    "category": "Khoa học",
+    "prompt": "Cầu vồng cơ bản thường được mô tả có mấy màu?",
+    "answers": [
+      "7",
+      "Bảy"
+    ],
+    "explanation": "Cách mô tả phổ biến chia cầu vồng thành bảy màu."
+  },
+  {
+    "id": "q080",
+    "category": "Khoa học",
+    "prompt": "Trong hệ Mặt Trời, hành tinh lớn nhất là gì?",
+    "answers": [
+      "Sao Mộc"
+    ],
+    "explanation": "Sao Mộc là hành tinh lớn nhất hệ Mặt Trời."
+  },
+  {
+    "id": "q081",
+    "category": "Thể thao",
+    "prompt": "Một đội bóng đá thi đấu chính thức có bao nhiêu cầu thủ trên sân lúc bắt đầu?",
+    "answers": [
+      "11",
+      "Mười một"
+    ],
+    "explanation": "Mỗi đội bóng đá có 11 cầu thủ."
+  },
+  {
+    "id": "q082",
+    "category": "Thể thao",
+    "prompt": "Bóng chuyền trong nhà có bao nhiêu người mỗi đội trên sân?",
+    "answers": [
+      "6",
+      "Sáu"
+    ],
+    "explanation": "Bóng chuyền trong nhà mỗi đội có 6 người."
+  },
+  {
+    "id": "q083",
+    "category": "Thể thao",
+    "prompt": "Bóng rổ có bao nhiêu người mỗi đội trên sân?",
+    "answers": [
+      "5",
+      "Năm"
+    ],
+    "explanation": "Bóng rổ mỗi đội có 5 người trên sân."
+  },
+  {
+    "id": "q084",
+    "category": "Thể thao",
+    "prompt": "Môn thể thao dùng vợt và quả cầu lông là gì?",
+    "answers": [
+      "Cầu lông"
+    ],
+    "explanation": "Cầu lông dùng quả cầu thay cho quả bóng."
+  },
+  {
+    "id": "q085",
+    "category": "Thể thao",
+    "prompt": "Môn thể thao dùng gậy đánh bóng vào lỗ trên sân cỏ là gì?",
+    "answers": [
+      "Golf",
+      "Gôn"
+    ],
+    "explanation": "Golf có mục tiêu đưa bóng vào lỗ với ít gậy."
+  },
+  {
+    "id": "q086",
+    "category": "Thể thao",
+    "prompt": "Môn thể thao di chuyển trong nước bằng tay chân là gì?",
+    "answers": [
+      "Bơi",
+      "Bơi lội"
+    ],
+    "explanation": "Bơi lội là môn thể thao dưới nước."
+  },
+  {
+    "id": "q087",
+    "category": "Thể thao",
+    "prompt": "Thế vận hội mùa hè thường được tổ chức cách nhau mấy năm?",
+    "answers": [
+      "4",
+      "Bốn"
+    ],
+    "explanation": "Thế vận hội mùa hè thường diễn ra mỗi 4 năm."
+  },
+  {
+    "id": "q088",
+    "category": "Thể thao",
+    "prompt": "Trong bóng đá, ai được dùng tay trong khu phạt đền của đội mình?",
+    "answers": [
+      "Thủ môn"
+    ],
+    "explanation": "Thủ môn được dùng tay trong khu phạt đền theo luật."
+  },
+  {
+    "id": "q089",
+    "category": "Thể thao",
+    "prompt": "Trong bóng đá, thẻ màu gì thường dùng để truất quyền thi đấu?",
+    "answers": [
+      "Đỏ",
+      "Thẻ đỏ"
+    ],
+    "explanation": "Thẻ đỏ khiến cầu thủ phải rời sân."
+  },
+  {
+    "id": "q090",
+    "category": "Thể thao",
+    "prompt": "Môn bóng bàn sử dụng mặt bàn và một tấm gì ở giữa?",
+    "answers": [
+      "Lưới"
+    ],
+    "explanation": "Lưới chia hai nửa bàn bóng bàn."
+  },
+  {
+    "id": "q091",
+    "category": "Thể thao",
+    "prompt": "Một set tennis thông thường cần thắng ít nhất mấy game?",
+    "answers": [
+      "6",
+      "Sáu"
+    ],
+    "explanation": "Thông thường cần ít nhất 6 game và hơn đối thủ 2 game."
+  },
+  {
+    "id": "q092",
+    "category": "Thể thao",
+    "prompt": "Môn võ của Nhật Bản có tên nghĩa là con đường mềm dẻo là gì?",
+    "answers": [
+      "Judo",
+      "Nhu đạo"
+    ],
+    "explanation": "Judo thường được dịch là nhu đạo."
+  },
+  {
+    "id": "q093",
+    "category": "Thể thao",
+    "prompt": "Môn thể thao đấu trên võ đài bằng nắm đấm có găng là gì?",
+    "answers": [
+      "Boxing",
+      "Quyền anh"
+    ],
+    "explanation": "Boxing còn gọi là quyền anh."
+  },
+  {
+    "id": "q094",
+    "category": "Thể thao",
+    "prompt": "Vận động viên chạy cự ly dài cần đặc biệt phát triển sức gì?",
+    "answers": [
+      "Bền",
+      "Sức bền"
+    ],
+    "explanation": "Sức bền rất quan trọng trong chạy đường dài."
+  },
+  {
+    "id": "q095",
+    "category": "Thể thao",
+    "prompt": "Trong cờ vua, quân quan trọng phải bảo vệ khỏi chiếu hết là quân gì?",
+    "answers": [
+      "Vua"
+    ],
+    "explanation": "Bị chiếu hết quân vua là thua ván cờ."
+  },
+  {
+    "id": "q096",
+    "category": "Thể thao",
+    "prompt": "Trong cờ vua, quân đi theo đường chéo là quân gì?",
+    "answers": [
+      "Tượng"
+    ],
+    "explanation": "Quân tượng đi chéo."
+  },
+  {
+    "id": "q097",
+    "category": "Thể thao",
+    "prompt": "Trong cờ vua, quân di chuyển hình chữ L là quân gì?",
+    "answers": [
+      "Mã",
+      "Ngựa"
+    ],
+    "explanation": "Quân mã di chuyển theo hình chữ L."
+  },
+  {
+    "id": "q098",
+    "category": "Thể thao",
+    "prompt": "Trong bóng đá, đá phạt 11 mét thường được gọi là gì?",
+    "answers": [
+      "Penalty",
+      "Phạt đền"
+    ],
+    "explanation": "Penalty là quả phạt đền."
+  },
+  {
+    "id": "q099",
+    "category": "Thể thao",
+    "prompt": "Môn thể thao đạp xe được gọi là môn gì?",
+    "answers": [
+      "Đua xe đạp",
+      "Xe đạp"
+    ],
+    "explanation": "Đua xe đạp là môn thi đấu bằng xe đạp."
+  },
+  {
+    "id": "q100",
+    "category": "Thể thao",
+    "prompt": "Dụng cụ bảo vệ đầu khi đi xe đạp thường gọi là gì?",
+    "answers": [
+      "Mũ bảo hiểm",
+      "Nón bảo hiểm"
+    ],
+    "explanation": "Mũ bảo hiểm giúp bảo vệ đầu khi có va chạm."
+  },
+  {
+    "id": "q101",
+    "category": "Toán học",
+    "prompt": "4 cộng 3 bằng bao nhiêu?",
+    "answers": [
+      "7"
+    ],
+    "explanation": "Kết quả là 7."
+  },
+  {
+    "id": "q102",
+    "category": "Toán học",
+    "prompt": "9 trừ 4 bằng bao nhiêu?",
+    "answers": [
+      "5"
+    ],
+    "explanation": "Kết quả là 5."
+  },
+  {
+    "id": "q103",
+    "category": "Toán học",
+    "prompt": "6 nhân 5 bằng bao nhiêu?",
+    "answers": [
+      "30"
+    ],
+    "explanation": "Kết quả là 30."
+  },
+  {
+    "id": "q104",
+    "category": "Toán học",
+    "prompt": "7 cộng 6 bằng bao nhiêu?",
+    "answers": [
+      "13"
+    ],
+    "explanation": "Kết quả là 13."
+  },
+  {
+    "id": "q105",
+    "category": "Toán học",
+    "prompt": "15 trừ 7 bằng bao nhiêu?",
+    "answers": [
+      "8"
+    ],
+    "explanation": "Kết quả là 8."
+  },
+  {
+    "id": "q106",
+    "category": "Toán học",
+    "prompt": "9 nhân 8 bằng bao nhiêu?",
+    "answers": [
+      "72"
+    ],
+    "explanation": "Kết quả là 72."
+  },
+  {
+    "id": "q107",
+    "category": "Toán học",
+    "prompt": "10 cộng 2 bằng bao nhiêu?",
+    "answers": [
+      "12"
+    ],
+    "explanation": "Kết quả là 12."
+  },
+  {
+    "id": "q108",
+    "category": "Toán học",
+    "prompt": "14 trừ 3 bằng bao nhiêu?",
+    "answers": [
+      "11"
+    ],
+    "explanation": "Kết quả là 11."
+  },
+  {
+    "id": "q109",
+    "category": "Toán học",
+    "prompt": "12 nhân 4 bằng bao nhiêu?",
+    "answers": [
+      "48"
+    ],
+    "explanation": "Kết quả là 48."
+  },
+  {
+    "id": "q110",
+    "category": "Toán học",
+    "prompt": "13 cộng 5 bằng bao nhiêu?",
+    "answers": [
+      "18"
+    ],
+    "explanation": "Kết quả là 18."
+  },
+  {
+    "id": "q111",
+    "category": "Toán học",
+    "prompt": "20 trừ 6 bằng bao nhiêu?",
+    "answers": [
+      "14"
+    ],
+    "explanation": "Kết quả là 14."
+  },
+  {
+    "id": "q112",
+    "category": "Toán học",
+    "prompt": "15 nhân 7 bằng bao nhiêu?",
+    "answers": [
+      "105"
+    ],
+    "explanation": "Kết quả là 105."
+  },
+  {
+    "id": "q113",
+    "category": "Toán học",
+    "prompt": "16 cộng 8 bằng bao nhiêu?",
+    "answers": [
+      "24"
+    ],
+    "explanation": "Kết quả là 24."
+  },
+  {
+    "id": "q114",
+    "category": "Toán học",
+    "prompt": "19 trừ 2 bằng bao nhiêu?",
+    "answers": [
+      "17"
+    ],
+    "explanation": "Kết quả là 17."
+  },
+  {
+    "id": "q115",
+    "category": "Toán học",
+    "prompt": "18 nhân 3 bằng bao nhiêu?",
+    "answers": [
+      "54"
+    ],
+    "explanation": "Kết quả là 54."
+  },
+  {
+    "id": "q116",
+    "category": "Toán học",
+    "prompt": "19 cộng 4 bằng bao nhiêu?",
+    "answers": [
+      "23"
+    ],
+    "explanation": "Kết quả là 23."
+  },
+  {
+    "id": "q117",
+    "category": "Toán học",
+    "prompt": "25 trừ 5 bằng bao nhiêu?",
+    "answers": [
+      "20"
+    ],
+    "explanation": "Kết quả là 20."
+  },
+  {
+    "id": "q118",
+    "category": "Toán học",
+    "prompt": "21 nhân 6 bằng bao nhiêu?",
+    "answers": [
+      "126"
+    ],
+    "explanation": "Kết quả là 126."
+  },
+  {
+    "id": "q119",
+    "category": "Toán học",
+    "prompt": "22 cộng 7 bằng bao nhiêu?",
+    "answers": [
+      "29"
+    ],
+    "explanation": "Kết quả là 29."
+  },
+  {
+    "id": "q120",
+    "category": "Toán học",
+    "prompt": "31 trừ 8 bằng bao nhiêu?",
+    "answers": [
+      "23"
+    ],
+    "explanation": "Kết quả là 23."
+  }
+]
