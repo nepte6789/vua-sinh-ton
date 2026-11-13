@@ -68,7 +68,8 @@ export class BotDirector {
     this.target = 12;
     this.serial = 0;
     this.plans = new Map();
-    this.rejoins = new Map();
+    this.nextRefillAt = null;
+    this.previousRealCount = 0;
     this.reactions = new Map();
   }
   managed() {
@@ -83,6 +84,7 @@ export class BotDirector {
       target: this.target,
       total: list.length,
       active: list.filter((p) => p.zone === "island").length,
+      nextRefillAt: this.nextRefillAt,
     };
   }
   configure(on, count = this.target) {
@@ -92,19 +94,44 @@ export class BotDirector {
     this.enabled = !!on;
     this.target = n;
     this.plans.clear();
-    this.rejoins.clear();
+    this.nextRefillAt = null;
     for (const p of this.managed().slice(this.enabled ? n : 0)) {
       this.game.players.delete(p.id);
       this.game.submissions.delete(p.id);
     }
     this.game.fillSeats();
-    if (this.enabled) this.sync();
+    if (this.enabled) {
+      this.sync();
+      this.previousRealCount = this.realCount();
+      this.scheduleRefill();
+    }
     this.game.update();
   }
-  sync() {
-    if (!this.enabled || this.game.phase === "finished") return;
-    let count = this.managed().length;
-    while (count < this.target && this.game.island().length < 200) {
+  realCount() {
+    return this.game.island().filter((p) => !p.demo).length;
+  }
+  scheduleRefill() {
+    this.nextRefillAt = this.now() + 60000 + Math.floor(this.random() * 120001);
+  }
+  sync(limit = this.target) {
+    if (!this.enabled || ["paused", "finished"].includes(this.game.phase))
+      return;
+    this.game.fillSeats();
+    let added = 0;
+    while (
+      this.state().active < this.target &&
+      this.game.island().length < this.game.config.capacity &&
+      added < limit
+    ) {
+      const departed = this.managed().filter((p) => p.zone === "out");
+      if (departed.length) {
+        const p = departed[Math.floor(this.random() * departed.length)];
+        this.plans.delete(p.id);
+        this.game.comment(p, "VÔ");
+        added++;
+        continue;
+      }
+      if (this.managed().length >= this.target) break;
       const n = ++this.serial,
         user = {
           id: "bot-" + n,
@@ -116,24 +143,24 @@ export class BotDirector {
           demo: true,
         };
       this.game.comment(user, "VÔ");
-      count++;
+      added++;
     }
   }
   tick() {
     if (!this.enabled) return;
-    this.sync();
     const g = this.game;
     if (g.phase === "paused" || g.phase === "finished") return;
+    if (this.nextRefillAt !== null && this.now() >= this.nextRefillAt) {
+      g.fillSeats();
+      const real = this.realCount();
+      if (real <= this.previousRealCount)
+        this.sync(1 + Math.floor(this.random() * 3));
+      this.previousRealCount = real;
+      this.scheduleRefill();
+      g.update();
+    }
     for (const p of this.managed()) {
-      if (p.zone === "out") {
-        if (!this.rejoins.has(p.id))
-          this.rejoins.set(p.id, this.now() + 8000 + this.random() * 12000);
-        if (this.now() >= this.rejoins.get(p.id)) {
-          g.comment(p, "VÔ");
-          this.rejoins.delete(p.id);
-        }
-        continue;
-      }
+      if (p.zone === "out") continue;
       if (g.phase === "reveal") {
         const key = g.round + ":" + g.number;
         if (this.reactions.get(p.id) !== key) {

@@ -117,3 +117,5 @@ Sau mỗi câu hiển thị và đọc đáp án cùng tối đa ba người tr�
 Sau câu 100 và phần đọc kết quả, game tự mở ván tiếp theo, giữ nguyên danh sách và ghế người đang trên đảo, hàng chờ và cấu hình bot. Điểm, lịch sử đúng/sai và số câu vắng tính lại cho ván mới. Nút “Ván mới” thủ công vẫn xóa danh sách như trước.
 
 Bảng điều khiển cho bật/tắt và chỉnh 10–100 bot (mặc định 12). Bot có avatar vẽ riêng, tên đa dạng, tự bình luận đáp án với thời điểm và độ chính xác khác nhau; có thể bị loại và vào lại theo luật chung. Số bot thực tế phụ thuộc chỗ trống trên đảo. Bot chỉ mô phỏng trong game, không gửi bình luận lên TikTok.
+
+Bot bị loại không tự quay lại sau vài giây. Khi bật bot, sau mỗi khoảng ngẫu nhiên 1–3 phút, game bù ngẫu nhiên 1–3 bot, không quá số bot đã đặt hoặc sức chứa đảo. Nếu số người chơi thật trên đảo tăng so với lần kiểm tra trước (lần đầu so với lúc bật/chỉnh bot), lượt đó bỏ qua bù bot. Bộ đếm được lên lịch lại sau mỗi lượt; không bù khi đang tạm dừng hoặc đã tắt bot. Hàng chờ được lên ghế trước bot.
