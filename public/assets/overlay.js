@@ -199,12 +199,6 @@ function render(message) {
         name = document.createElement("b"),
         text = document.createElement("span");
       name.textContent = message.name;
-      if (message.demo) {
-        const badge = document.createElement("small");
-        badge.className = "chat-badge";
-        badge.textContent = "BOT";
-        name.append(badge);
-      }
       text.textContent = message.text;
       body.append(name, text);
       row.append(body);

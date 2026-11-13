@@ -720,15 +720,6 @@ textarea:focus-visible {
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
-.chat-badge {
-  font-size: 11px;
-  background: #28718a;
-  color: #dbf9ff;
-  border-radius: 5px;
-  padding: 1px 4px;
-  margin-left: 6px;
-  vertical-align: middle;
-}
 #chatEmpty {
   color: #9bd3eb;
   font-size: 18px;
