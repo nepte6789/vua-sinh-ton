@@ -91,13 +91,31 @@ export class Game extends EventEmitter {
     this.players = new Map();
     this.submissions = new Map();
     this.feed = [];
+    this.chat = [];
     this.deck = [];
     this.deadline = null;
     this.serial = 0;
+    this.chatSerial = 0;
   }
   note(text, kind = "info") {
     this.feed.push({ text, kind, at: this.now() });
     if (this.feed.length > 6) this.feed.shift();
+  }
+  recordChat(user, text) {
+    const message = String(text ?? "")
+      .trim()
+      .slice(0, 500);
+    if (!message) return;
+    this.chat.push({
+      id: ++this.chatSerial,
+      userId: String(user.id),
+      name: String(user.name || "Người chơi").slice(0, 80),
+      avatar: /^https?:\/\//i.test(user.avatar || "") ? user.avatar : "",
+      demo: !!user.demo,
+      text: message,
+      at: this.now(),
+    });
+    if (this.chat.length > 50) this.chat.shift();
   }
   update() {
     this.emit("state", this.snapshot());
@@ -148,8 +166,10 @@ export class Game extends EventEmitter {
     this.deck = [];
     this.deadline = null;
     this.serial = 0;
+    this.chatSerial = 0;
     this.paused = null;
     this.feed = [];
+    this.chat = [];
     this.note("Đảo mở cửa · bình luận VÔ để tham gia!");
     this.update();
   }
@@ -278,6 +298,8 @@ export class Game extends EventEmitter {
     return { ok: true };
   }
   comment(user, text) {
+    this.recordChat(user, text);
+    this.update();
     return ["vo", "vao", "lendao"].includes(normalize(text))
       ? this.join(user)
       : this.submit(user.id, text);
@@ -446,6 +468,7 @@ export class Game extends EventEmitter {
       leaderboard: rank.slice(0, 10).map(publicPlayer),
       winner: this.phase === "finished" ? this.winnerResult : null,
       feed: this.feed,
+      chat: this.chat,
       categories: [...new Set(this.bank.map((q) => q.category))],
     };
   }

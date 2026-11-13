@@ -9,6 +9,7 @@ let current = null,
   offset = 0,
   settings = {},
   signature = "",
+  chatSignature = "",
   voicePlayer = null,
   AC = null;
 const pendingVoice = [];
@@ -178,6 +179,39 @@ function render(message) {
     score.textContent = p.points;
     li.append(rank, name, score);
     $("ranking").append(li);
+  }
+  const chatKey = `${g.round}:${g.chat?.at(-1)?.id || 0}`;
+  if (chatSignature !== chatKey) {
+    chatSignature = chatKey;
+    const list = $("chatMessages");
+    list.replaceChildren();
+    for (const message of g.chat || []) {
+      const row = document.createElement("div");
+      row.className = "chat-message";
+      row.append(
+        avatar({
+          id: message.userId,
+          name: message.name,
+          avatar: message.avatar,
+        }),
+      );
+      const body = document.createElement("div"),
+        name = document.createElement("b"),
+        text = document.createElement("span");
+      name.textContent = message.name;
+      if (message.demo) {
+        const badge = document.createElement("small");
+        badge.className = "chat-badge";
+        badge.textContent = "BOT";
+        name.append(badge);
+      }
+      text.textContent = message.text;
+      body.append(name, text);
+      row.append(body);
+      list.append(row);
+    }
+    $("chatEmpty").hidden = !!g.chat?.length;
+    list.scrollTop = list.scrollHeight;
   }
   $("ticker").textContent = g.feed.at(-1)?.text || "Bình luận VÔ để lên đảo!";
   $("liveStatus").textContent =

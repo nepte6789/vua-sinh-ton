@@ -143,10 +143,9 @@ export class BotDirector {
               p.lastResult === "correct"
                 ? ["Đúng rồi!", "Câu này hay quá", "May quá mình biết câu này"]
                 : ["Tiếc quá!", "Câu sau cố lên", "Giờ mới biết đáp án"];
-            g.note(
-              `${p.name}: ${words[Math.floor(this.random() * words.length)]}`,
-              "chat",
-            );
+            const text = words[Math.floor(this.random() * words.length)];
+            g.recordChat(p, text);
+            g.note(`${p.name}: ${text}`, "chat");
             g.update();
           }
         }

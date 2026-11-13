@@ -274,3 +274,16 @@ test("wait for speech completion then give a full five second countdown, includi
   g.resume();
   assert.equal(g.deadline - g.now(), 5000);
 });
+
+test("chat keeps both player and bot comments even outside answer windows, bounded and reset per round", () => {
+  const { game: g } = setup();
+  g.comment(person("real"), "Xin chào");
+  g.comment({ ...person("bot"), demo: true }, "VÔ");
+  assert.equal(g.snapshot().chat[0].text, "Xin chào");
+  assert.equal(g.snapshot().chat[1].demo, true);
+  for (let i = 0; i < 60; i++) g.comment(person("real"), "Tin " + i);
+  assert.equal(g.snapshot().chat.length, 50);
+  assert.equal(g.snapshot().chat.at(-1).text, "Tin 59");
+  g.newRound();
+  assert.deepEqual(g.snapshot().chat, []);
+});
