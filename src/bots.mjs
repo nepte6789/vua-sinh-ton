@@ -193,7 +193,7 @@ export class BotDirector {
             this.now() +
             Math.min(
               Math.max(500, remaining - 300),
-              3000 + this.random() * 19000,
+              3000 + this.random() * 14000,
             ),
           skip: this.random() < 0.08,
           answer:

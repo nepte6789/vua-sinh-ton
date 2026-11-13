@@ -39,12 +39,12 @@ test("120 questions across six topics have unique ids and valid answers", () => 
   assert.equal(validateQuestions(bank).length, 120);
   assert.throws(() => validateQuestions([...bank, bank[0]]));
 });
-test("server enforces 25 seconds, first answer, and does not reveal answer early", () => {
+test("server enforces 20 seconds, first answer, and does not reveal answer early", () => {
   const f = setup(),
     g = f.game;
   g.join(person(1));
   g.start();
-  assert.equal(g.deadline - g.openedAt, 25000);
+  assert.equal(g.deadline - g.openedAt, 20000);
   assert.equal(g.snapshot().question.answer, undefined);
   f.setNow(g.deadline - 1);
   assert.equal(answer(g, 1, false).ok, true);
@@ -173,7 +173,7 @@ test("pause preserves remaining time and no answer is accepted while paused", ()
   assert.equal(g.phase, "paused");
   assert.equal(answer(g, 1, true).ok, false);
   g.resume();
-  assert.equal(g.deadline - g.now(), 20000);
+  assert.equal(g.deadline - g.now(), 15000);
   answer(g, 1, true);
   f.close();
   assert.equal(g.players.get("1").points, 10);
@@ -340,4 +340,22 @@ test("fastest answer announcement includes the score after this question", () =>
   f.close();
   assert.equal(g.snapshot().topAnswers[0].points, 20);
   assert.equal(g.snapshot().topAnswers[0].correct, 2);
+});
+
+test("clear simulated players preserves real scores and promotes real waiting players", () => {
+  const { game: g } = setup();
+  g.join({ ...person("trial"), demo: true });
+  for (let i = 0; i < 200; i++) g.join(person(i));
+  g.start();
+  g.comment({ ...person("trial"), demo: true }, "hi");
+  g.comment(person(0), "hi");
+  g.players.get("0").points = 70;
+  g.clearSimulated();
+  assert.equal(g.players.size, 200);
+  assert.equal(g.island().length, 200);
+  assert.equal(g.players.get("199").zone, "island");
+  assert.equal(g.players.get("0").points, 70);
+  assert.ok(g.chat.every((m) => !m.demo));
+  assert.equal(g.players.has("trial"), false);
+  assert.equal(g.submissions.has("trial"), false);
 });

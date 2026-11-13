@@ -1,6 +1,6 @@
 # VUA SINH TỒN 👑🏝️
 
-Game đố vui sinh tồn cho TikTok LIVE: người xem bình luận để lên đảo, dùng avatar TikTok, trả lời câu hỏi trong 25 giây và tranh điểm. Màn hình đảo 9:16 xanh biển – vàng cát được dựng riêng, không kèm giao diện ứng dụng TikTok. Chạy trên máy dẫn live, đưa cửa sổ overlay vào TikTok LIVE Studio/OBS.
+Game đố vui sinh tồn cho TikTok LIVE: người xem bình luận để lên đảo, dùng avatar TikTok, trả lời câu hỏi trong 20 giây và tranh điểm. Màn hình đảo 9:16 xanh biển – vàng cát được dựng riêng, không kèm giao diện ứng dụng TikTok. Chạy trên máy dẫn live, đưa cửa sổ overlay vào TikTok LIVE Studio/OBS.
 
 ## Chạy nhanh
 
@@ -21,7 +21,7 @@ npm start
 Đã áp dụng bản thay đổi mới nhất:
 
 1. Bình luận **VÔ** (`vo`, `vào` cũng được nhận) ở **bất kỳ câu nào** để lên đảo. Đảo tối đa **200 người**; đủ chỗ thì vào hàng chờ theo thứ tự.
-2. Mỗi ván **100 câu**, mỗi câu **25 giây**. Đồng hồ và hạn chốt do server quyết định, không phụ thuộc đồng hồ đếm ngược của trình duyệt.
+2. Mỗi ván **100 câu**, mỗi câu **20 giây**. Đồng hồ và hạn chốt do server quyết định, không phụ thuộc đồng hồ đếm ngược của trình duyệt.
 3. Chỉ tính **câu trả lời đầu tiên** của mỗi người trong mỗi câu. Đúng **+10 điểm**; không phân biệt dấu tiếng Việt, hoa/thường và khoảng cách. Câu toán trả lời bằng số. Hỗ trợ số âm/thập phân khi thêm câu hỏi.
 4. **Không trả lời 3 câu liên tiếp**: bị mời khỏi đảo. Trả lời sai vẫn được tính là đã trả lời, nên không cộng lần vắng.
 5. Sau khi tham gia đủ **6 câu trên đảo**, cần đúng ít nhất **3 trong 6 câu gần nhất** để ở lại. Đây là cửa sổ trượt: đánh giá lại sau mỗi câu. Trước khi đủ 6 câu chỉ áp dụng điều kiện vắng 3 câu liên tiếp.
@@ -89,7 +89,7 @@ File nhập là mảng các đối tượng này, tối thiểu 20 câu, tối �
 npm test
 ```
 
-Các test kiểm tra 200 ghế, hàng chờ FIFO, hạn 25 giây, khóa đáp án đầu tiên, 3 câu vắng, cửa sổ trượt 3/6, VÔ lại, tham gia sau câu 12, pause/resume, xếp hạng và câu hỏi nhiều chủ đề. Màn hình và điều khiển cũng được thử bằng Chromium với 200 người mô phỏng; không đồng nghĩa kết nối TikTok/Edge ở mọi mạng đã được xác minh.
+Các test kiểm tra 200 ghế, hàng chờ FIFO, hạn 20 giây, khóa đáp án đầu tiên, 3 câu vắng, cửa sổ trượt 3/6, VÔ lại, tham gia sau câu 12, pause/resume, xếp hạng và câu hỏi nhiều chủ đề. Màn hình và điều khiển cũng được thử bằng Chromium với 200 người mô phỏng; không đồng nghĩa kết nối TikTok/Edge ở mọi mạng đã được xác minh.
 
 ## Cấu trúc
 
@@ -119,3 +119,9 @@ Sau câu 100 và phần đọc kết quả, game tự mở ván tiếp theo, gi�
 Bảng điều khiển cho bật/tắt và chỉnh 10–100 bot (mặc định 12). Bot có avatar vẽ riêng, tên đa dạng, tự bình luận đáp án với thời điểm và độ chính xác khác nhau; có thể bị loại và vào lại theo luật chung. Số bot thực tế phụ thuộc chỗ trống trên đảo. Bot chỉ mô phỏng trong game, không gửi bình luận lên TikTok.
 
 Bot bị loại không tự quay lại sau vài giây. Khi bật bot, sau mỗi khoảng ngẫu nhiên 1–3 phút, game bù ngẫu nhiên 1–3 bot, không quá số bot đã đặt hoặc sức chứa đảo. Nếu số người chơi thật trên đảo tăng so với lần kiểm tra trước (lần đầu so với lúc bật/chỉnh bot), lượt đó bỏ qua bù bot. Bộ đếm được lên lịch lại sau mỗi lượt; không bù khi đang tạm dừng hoặc đã tắt bot. Hàng chờ được lên ghế trước bot.
+
+### Nhạc nền và xóa dữ liệu thử
+
+Bấm “Bật giọng đọc và nhạc nền” một lần trên màn hình đảo. Nhạc Island Sunshine được tạo riêng bằng bộ tổng hợp âm thanh trong trình duyệt, không dùng bản thu hay sample bên thứ ba. Nhạc mặc định nhỏ (18%, giới hạn 35%), tự giảm còn 16% mức đang đặt khi có giọng đọc. Có nút bật/tắt và thanh âm lượng; giọng đọc vẫn hoạt động khi tắt nhạc. Không thể bảo đảm TikTok không nhận nhầm bản quyền.
+
+Nút “Xóa tất cả người thử và bot” ở bảng điều khiển xóa dữ liệu mô phỏng, tắt bot và lịch bù, giữ người TikTok thật cùng điểm hiện có; hàng chờ thật tự lấp ghế trống.

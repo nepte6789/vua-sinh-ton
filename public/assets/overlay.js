@@ -11,7 +11,8 @@ let current = null,
   signature = "",
   chatSignature = "",
   voicePlayer = null,
-  AC = null;
+  AC = null,
+  music = null;
 const pendingVoice = [];
 const rows = [10, 12, 16, 18, 20, 24, 24, 20, 18, 16, 12, 10];
 function avatar(person) {
@@ -266,10 +267,13 @@ function flushVoice() {
 $("soundButton").onclick = async () => {
   AC ||= new AudioContext();
   await AC.resume();
+  music ||= new IslandMusic(AC);
+  music.start();
+  $("musicControls").hidden = false;
   voicePlayer ||= new FestivalVoiceQueue({
     context: AC,
     output: AC.destination,
-    duck() {},
+    duck: (value) => music.duck(value),
     settings: () => settings,
     shouldPlay: (m) =>
       m.round === current?.round &&
@@ -302,3 +306,10 @@ const ws = new LiveSocket(
       $("liveStatus").textContent = "Đang nối lại server…";
   },
 );
+
+$("musicToggle").onclick = () => {
+  if (music)
+    $("musicToggle").textContent = music.toggle() ? "♫ Tắt nhạc" : "♫ Bật nhạc";
+};
+$("musicVolume").oninput = () =>
+  music?.setVolume(Number($("musicVolume").value) / 100);
