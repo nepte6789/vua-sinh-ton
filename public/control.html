@@ -24,7 +24,7 @@
       <span id="serverStatus" class="status">Server: đang kết nối</span
       ><span id="liveStatus" class="status">TikTok: chưa kết nối</span
       ><span class="status" id="phaseStatus">Sảnh chờ</span
-      ><span class="status" id="playerCount">0/200 trên đảo</span>
+      ><span class="status" id="playerCount">0/1000 trên đảo</span>
     </div>
     <div id="notice" role="status"></div>
     <main class="layout">
@@ -69,12 +69,12 @@
             </select></label
           ><label class="checkbox"
             ><input type="checkbox" id="autoNext" checked /> Tự sang câu sau 5
-            giây sau khi đọc TOP 3</label
+            giây sau khi đọc đáp án</label
           >
         </div>
         <div class="game-stats">
           <div><b id="roundStat">1</b><small>Ván</small></div>
-          <div><b id="questionStat">0/20</b><small>Câu hỏi</small></div>
+          <div><b id="questionStat">0/100</b><small>Câu hỏi</small></div>
           <div><b id="timeStat">25</b><small>Giây còn lại</small></div>
           <div><b id="lockedStat">0</b><small>Đã chốt</small></div>
         </div>
@@ -91,7 +91,7 @@
         </p>
         <label class="checkbox"
           ><input type="checkbox" id="voice" checked /> Đọc câu hỏi, đáp án và
-          TOP 3 bằng giọng nữ Hoài My</label
+          xếp hạng mỗi 10 câu bằng giọng nữ Hoài My</label
         >
         <p class="hint">
           Bấm bật giọng đọc trên màn hình đảo một lần. Nếu dịch vụ Edge lỗi, thử
@@ -180,8 +180,9 @@
           <span class="tag" id="bankCount">120 câu · 6 chủ đề</span>
         </div>
         <p class="hint">
-          Mỗi chủ đề cần ít nhất 20 câu để mở ván. Có thể đổi câu hỏi khi ở sảnh
-          hoặc sau khi kết thúc ván. Đáp án phụ ngăn cách bằng dấu |.
+          Mỗi ván có 100 câu; chủ đề dưới 100 câu sẽ được xáo lại để đủ số câu.
+          Có thể đổi câu hỏi khi ở sảnh hoặc sau khi kết thúc ván. Đáp án phụ
+          ngăn cách bằng dấu |.
         </p>
         <div class="bank-grid">
           <div>
@@ -239,7 +240,8 @@
       </section>
     </main>
     <footer>
-      VUA SINH TỒN · 200 người trên đảo · 25 giây mỗi câu · Đúng 3/6 để ở lại
+      VUA SINH TỒN · 200 người trên đảo · 25 giây mỗi câu · 100 câu mỗi ván ·
+      Xếp hạng mỗi 10 câu · Đúng 3/6 để ở lại
     </footer>
     <script src="/assets/live-socket.js"></script>
     <script src="/assets/control.js"></script>

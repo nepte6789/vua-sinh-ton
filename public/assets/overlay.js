@@ -58,7 +58,7 @@ function render(message) {
         ? "VÁN ĐÃ KẾT THÚC"
         : g.phase === "paused"
           ? "TẠM DỪNG"
-          : `${g.number <= 5 ? "Khởi động" : g.number <= 12 ? "Sinh tồn" : "Chung kết"} · Câu ${g.number}/20`;
+          : `${g.number <= 10 ? "Khởi động" : g.number <= 80 ? "Sinh tồn" : "Chung kết"} · Câu ${g.number}/${g.config.roundQuestions}`;
   $("phase").textContent = phase;
   $("prompt").textContent =
     g.question?.prompt || "Bạn đã sẵn sàng trở thành vua sinh tồn?";
@@ -97,7 +97,9 @@ function render(message) {
   }
   $("reportStatus").textContent = g.question?.answer
     ? g.announcementPending
-      ? "Đang đọc TOP 3…"
+      ? g.rankingDue
+        ? "Đang đọc bảng xếp hạng…"
+        : "Đang đọc đáp án…"
       : g.config.autoNext
         ? "Câu tiếp theo sau 5 giây"
         : "Chờ chủ phòng sang câu"
@@ -166,8 +168,10 @@ function render(message) {
     $("waiting").append(cell);
   }
   $("waitingEmpty").hidden = waiting.length > 0;
+  $("rankingTitle").textContent =
+    `🏆 TOP ĐIỂM · ${g.rankingAt ? "Câu " + g.rankingAt : "Chờ câu 10"}`;
   $("ranking").replaceChildren();
-  for (const [i, p] of g.leaderboard.slice(0, 5).entries()) {
+  for (const [i, p] of g.leaderboard.slice(0, 10).entries()) {
     const li = document.createElement("li"),
       rank = document.createElement("span"),
       name = document.createElement("span"),

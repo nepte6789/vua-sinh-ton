@@ -733,3 +733,15 @@ textarea:focus-visible {
 .bottom-panels .panel-heading small {
   text-align: left;
 }
+
+.ranking-card h3 {
+  font-size: 18px;
+}
+.ranking-card ol {
+  gap: 2px;
+  margin: 8px 0;
+}
+.ranking-card li {
+  font-size: 16px;
+  line-height: 18px;
+}

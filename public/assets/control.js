@@ -47,7 +47,7 @@ function render(m) {
   $("phaseStatus").textContent = phaseNames[g.phase];
   $("playerCount").textContent = `${g.islandCount}/200 trên đảo`;
   $("roundStat").textContent = g.round;
-  $("questionStat").textContent = g.number + "/20";
+  $("questionStat").textContent = g.number + "/" + g.config.roundQuestions;
   $("lockedStat").textContent = g.answered;
   $("currentQuestion").textContent =
     g.question?.prompt || "Đảo đang chờ người chơi…";

@@ -165,14 +165,17 @@ const tick = setInterval(() => {
     cancelReport();
     if (settings.readQuestions && audioReady()) {
       const state = game.snapshot(),
-        top = state.topAnswers;
+        top = state.leaderboard;
       const text =
         `Đáp án: ${state.question.answer}. ` +
-        (top.length
-          ? `Chúc mừng ${top.length} bạn trả lời đúng nhanh nhất: ` +
-            top.map((p, i) => `hạng ${i + 1}, ${p.name}`).join(". ") +
-            "."
-          : "Chưa có bạn nào trả lời đúng câu này.");
+        (state.rankingDue
+          ? `Bảng xếp hạng sau ${state.number} câu. ` +
+            (top.length
+              ? top
+                  .map((p, i) => `Hạng ${i + 1}, ${p.name}, ${p.points} điểm`)
+                  .join(". ") + "."
+              : "Chưa có người chơi.")
+          : "");
       const id = key + ":" + Date.now();
       report = {
         id,
