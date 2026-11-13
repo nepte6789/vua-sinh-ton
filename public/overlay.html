@@ -61,6 +61,14 @@
       </section>
       <div id="ticker" class="ticker">Chào mừng bạn đến với đảo kiến thức!</div>
       <section class="bottom-panels">
+        <div class="waiting-card">
+          <div class="panel-heading">
+            <h3>🛟 HÀNG CHỜ <span id="waitingCount">0</span></h3>
+            <small id="rescueRule">Tự lên theo thứ tự khi đảo còn chỗ</small>
+          </div>
+          <div id="waiting" class="waiting"></div>
+          <p id="waitingEmpty">Cùng trả lời để giành vé lên đảo.</p>
+        </div>
         <div class="chat-card">
           <h3>💬 TRÒ CHUYỆN</h3>
           <div
@@ -70,14 +78,6 @@
             aria-label="Tin nhắn người chơi và bot"
           ></div>
           <p id="chatEmpty">Tin nhắn sẽ xuất hiện ở đây.</p>
-        </div>
-        <div class="waiting-card">
-          <div class="panel-heading">
-            <h3>🛟 HÀNG CHỜ <span id="waitingCount">0</span></h3>
-            <small id="rescueRule">Tự lên theo thứ tự khi đảo còn chỗ</small>
-          </div>
-          <div id="waiting" class="waiting"></div>
-          <p id="waitingEmpty">Cùng trả lời để giành vé lên đảo.</p>
         </div>
         <div class="ranking-card">
           <h3>🏆 TOP ĐIỂM</h3>

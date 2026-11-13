@@ -441,7 +441,7 @@ textarea:focus-visible {
   right: 36px;
   top: 1515px;
   display: grid;
-  grid-template-columns: 380px minmax(0, 1fr) 285px;
+  grid-template-columns: minmax(0, 1fr) 380px 285px;
   gap: 18px;
   height: 270px;
 }
