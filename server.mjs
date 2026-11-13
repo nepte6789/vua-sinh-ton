@@ -42,7 +42,7 @@ const aliases = new Map(),
   settings = {
     voice: "vi-VN-HoaiMyNeural",
     pitch: 0,
-    rate: 2,
+    rate: 4,
     readQuestions: true,
   };
 let demoSerial = 0;
@@ -168,6 +168,16 @@ const tick = setInterval(() => {
         top = state.leaderboard;
       const text =
         `Đáp án: ${state.question.answer}. ` +
+        (state.topAnswers.length
+          ? `Chúc mừng ${state.topAnswers.length} bạn trả lời đúng nhanh nhất. ` +
+            state.topAnswers
+              .map(
+                (p, i) =>
+                  `Hạng ${i + 1}, ${p.name}, cộng 10 điểm, tổng ${p.points} điểm`,
+              )
+              .join(". ") +
+            ". "
+          : "Chưa có bạn nào trả lời đúng câu này. ") +
         (state.rankingDue
           ? `Bảng xếp hạng sau ${state.number} câu. ` +
             (top.length

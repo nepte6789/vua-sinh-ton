@@ -390,6 +390,10 @@ export class Game extends EventEmitter {
         }
       }
     }
+    this.topAnswers = this.topAnswers.map((p) => ({
+      ...publicPlayer(this.players.get(p.id)),
+      elapsed: p.elapsed,
+    }));
     this.phase = "reveal";
     this.fillSeats();
     if (this.number % this.config.rankingEvery === 0) {

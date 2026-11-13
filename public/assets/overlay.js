@@ -91,7 +91,7 @@ function render(message) {
     const entry = document.createElement("div");
     entry.append(avatar(p));
     const text = document.createElement("span");
-    text.textContent = `${["🥇", "🥈", "🥉"][i]} ${p.name} · ${(p.elapsed / 1000).toFixed(2)}s`;
+    text.textContent = `${["🥇", "🥈", "🥉"][i]} ${p.name} · ${(p.elapsed / 1000).toFixed(2)}s · ${p.points}đ`;
     entry.append(text);
     $("roundPodium").append(entry);
   }

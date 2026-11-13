@@ -287,6 +287,7 @@ test("top three are correct answers ordered by latency and stay private until re
     ["3", "1", "4"],
   );
   assert.equal(g.snapshot().topAnswers[0].elapsed, 1000);
+  assert.equal(g.snapshot().topAnswers[0].points, 10);
 });
 test("wait for speech completion then give a full five second countdown, including pause", () => {
   const f = setup(),
@@ -325,4 +326,18 @@ test("chat keeps both player and bot comments even outside answer windows, bound
   assert.equal(g.snapshot().chat.at(-1).text, "Tin 59");
   g.newRound();
   assert.deepEqual(g.snapshot().chat, []);
+});
+
+test("fastest answer announcement includes the score after this question", () => {
+  const f = setup(),
+    g = f.game;
+  g.join(person(1));
+  g.start();
+  answer(g, 1);
+  f.close();
+  f.next();
+  answer(g, 1);
+  f.close();
+  assert.equal(g.snapshot().topAnswers[0].points, 20);
+  assert.equal(g.snapshot().topAnswers[0].correct, 2);
 });

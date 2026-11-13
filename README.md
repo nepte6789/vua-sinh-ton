@@ -112,7 +112,7 @@ MIT, xem `LICENSE`. Các mô-đun kết nối/giọng đọc dùng lại từ d�
 
 ### Xếp hạng và bot
 
-Sau mỗi câu vẫn hiển thị đáp án và ba người trả lời đúng nhanh nhất. Bảng TOP ĐIỂM chỉ cập nhật sau mỗi 10 câu (10, 20, …, 100), đọc tối đa 10 tên cùng điểm theo thứ hạng thay cho đọc TOP 3 mỗi câu. Bấm bật giọng đọc trên màn hình đảo; đọc xong chờ 5 giây trước câu tiếp theo. Nếu chưa bật âm thanh, game dùng 5 giây hiển thị đáp án; có giới hạn chờ 90 giây nếu TTS lỗi.
+Sau mỗi câu hiển thị và đọc đáp án cùng tối đa ba người trả lời đúng nhanh nhất, điểm cộng và tổng điểm sau câu đó. Tốc độ giọng nữ mặc định +4%. Bảng TOP ĐIỂM chỉ cập nhật sau mỗi 10 câu (10, 20, …, 100), đọc tối đa 10 tên cùng điểm theo thứ hạng, bổ sung cho phần đọc TOP 3 mỗi câu. Bấm bật giọng đọc trên màn hình đảo; đọc xong chờ 5 giây trước câu tiếp theo. Nếu chưa bật âm thanh, game dùng 5 giây hiển thị đáp án; có giới hạn chờ 90 giây nếu TTS lỗi.
 
 Sau câu 100 và phần đọc kết quả, game tự mở ván tiếp theo, giữ nguyên danh sách và ghế người đang trên đảo, hàng chờ và cấu hình bot. Điểm, lịch sử đúng/sai và số câu vắng tính lại cho ván mới. Nút “Ván mới” thủ công vẫn xóa danh sách như trước.
 
