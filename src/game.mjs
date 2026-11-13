@@ -77,7 +77,8 @@ export class Game extends EventEmitter {
     this.config = {
       capacity: 200,
       questionSeconds: 25,
-      roundQuestions: 20,
+      roundQuestions: 100,
+      rankingEvery: 10,
       historySize: 6,
       minCorrect: 3,
       silentLimit: 3,
@@ -91,13 +92,33 @@ export class Game extends EventEmitter {
     this.players = new Map();
     this.submissions = new Map();
     this.feed = [];
+    this.chat = [];
     this.deck = [];
     this.deadline = null;
     this.serial = 0;
+    this.chatSerial = 0;
+    this.ranking = [];
+    this.rankingAt = 0;
   }
   note(text, kind = "info") {
     this.feed.push({ text, kind, at: this.now() });
     if (this.feed.length > 6) this.feed.shift();
+  }
+  recordChat(user, text) {
+    const message = String(text ?? "")
+      .trim()
+      .slice(0, 500);
+    if (!message) return;
+    this.chat.push({
+      id: ++this.chatSerial,
+      userId: String(user.id),
+      name: String(user.name || "Người chơi").slice(0, 80),
+      avatar: /^https?:\/\//i.test(user.avatar || "") ? user.avatar : "",
+      demo: !!user.demo,
+      text: message,
+      at: this.now(),
+    });
+    if (this.chat.length > 50) this.chat.shift();
   }
   update() {
     this.emit("state", this.snapshot());
@@ -132,8 +153,17 @@ export class Game extends EventEmitter {
       throw Error("Bấm Ván mới trước khi bắt đầu ván tiếp theo.");
     const pool = this.pool();
     if (pool.length < 20) throw Error("Chủ đề cần ít nhất 20 câu hỏi.");
-    this.deck = shuffle(pool, this.random).slice(0, 20);
-    this.note(`Ván ${this.round} bắt đầu · 20 câu hỏi!`);
+    this.deck = [];
+    while (this.deck.length < this.config.roundQuestions)
+      this.deck.push(
+        ...shuffle(pool, this.random).slice(
+          0,
+          this.config.roundQuestions - this.deck.length,
+        ),
+      );
+    this.note(
+      `Ván ${this.round} bắt đầu · ${this.config.roundQuestions} câu hỏi!`,
+    );
     this.openQuestion();
   }
   newRound() {
@@ -148,19 +178,41 @@ export class Game extends EventEmitter {
     this.deck = [];
     this.deadline = null;
     this.serial = 0;
+    this.chatSerial = 0;
+    this.ranking = [];
+    this.rankingAt = 0;
     this.paused = null;
     this.feed = [];
+    this.chat = [];
     this.note("Đảo mở cửa · bình luận VÔ để tham gia!");
     this.update();
   }
+  restartWithPlayers() {
+    this.round++;
+    this.number = 0;
+    this.phase = "lobby";
+    this.paused = null;
+    this.ranking = [];
+    this.rankingAt = 0;
+    this.winnerResult = null;
+    for (const p of this.players.values()) {
+      p.points = 0;
+      p.correct = 0;
+      p.responseMs = 0;
+      p.streak = 0;
+      p.strikes = 0;
+      p.history = [];
+      p.lastResult = null;
+      p.eligibleFrom = 1;
+    }
+    this.note(
+      `Bắt đầu ván ${this.round} · giữ nguyên người chơi và vị trí trên đảo!`,
+    );
+    this.start();
+  }
   openQuestion() {
     if (this.number >= this.deck.length) {
-      this.phase = "finished";
-      this.deadline = null;
-      const champion = this.rank().find((p) => p.zone === "island");
-      this.winnerResult = champion ? publicPlayer(champion) : null;
-      this.note("Ván đã kết thúc. Chúc mừng các nhà sinh tồn!", "win");
-      this.update();
+      this.restartWithPlayers();
       return;
     }
     this.number++;
@@ -278,6 +330,8 @@ export class Game extends EventEmitter {
     return { ok: true };
   }
   comment(user, text) {
+    this.recordChat(user, text);
+    this.update();
     return ["vo", "vao", "lendao"].includes(normalize(text))
       ? this.join(user)
       : this.submit(user.id, text);
@@ -336,8 +390,16 @@ export class Game extends EventEmitter {
         }
       }
     }
+    this.topAnswers = this.topAnswers.map((p) => ({
+      ...publicPlayer(this.players.get(p.id)),
+      elapsed: p.elapsed,
+    }));
     this.phase = "reveal";
     this.fillSeats();
+    if (this.number % this.config.rankingEvery === 0) {
+      this.ranking = this.rank().slice(0, 10).map(publicPlayer);
+      this.rankingAt = this.number;
+    }
     this.announcementPending = !!this.waitForAnnouncement;
     this.deadline = this.announcementPending
       ? null
@@ -420,7 +482,7 @@ export class Game extends EventEmitter {
         }
       : null;
     const island = this.island(),
-      rank = this.rank();
+      rank = this.ranking;
     return {
       round: this.round,
       phase: this.phase,
@@ -443,9 +505,15 @@ export class Game extends EventEmitter {
       outCount: [...this.players.values()].filter((p) => p.zone === "out")
         .length,
       answered: island.filter((p) => this.submissions.has(p.id)).length,
-      leaderboard: rank.slice(0, 10).map(publicPlayer),
+      leaderboard: rank,
+      rankingAt: this.rankingAt,
+      rankingDue:
+        revealed &&
+        this.number > 0 &&
+        this.number % this.config.rankingEvery === 0,
       winner: this.phase === "finished" ? this.winnerResult : null,
       feed: this.feed,
+      chat: this.chat,
       categories: [...new Set(this.bank.map((q) => q.category))],
     };
   }

@@ -42,7 +42,7 @@ const aliases = new Map(),
   settings = {
     voice: "vi-VN-HoaiMyNeural",
     pitch: 0,
-    rate: 2,
+    rate: 4,
     readQuestions: true,
   };
 let demoSerial = 0;
@@ -165,14 +165,27 @@ const tick = setInterval(() => {
     cancelReport();
     if (settings.readQuestions && audioReady()) {
       const state = game.snapshot(),
-        top = state.topAnswers;
+        top = state.leaderboard;
       const text =
         `Đáp án: ${state.question.answer}. ` +
-        (top.length
-          ? `Chúc mừng ${top.length} bạn trả lời đúng nhanh nhất: ` +
-            top.map((p, i) => `hạng ${i + 1}, ${p.name}`).join(". ") +
-            "."
-          : "Chưa có bạn nào trả lời đúng câu này.");
+        (state.topAnswers.length
+          ? `Chúc mừng ${state.topAnswers.length} bạn trả lời đúng nhanh nhất. ` +
+            state.topAnswers
+              .map(
+                (p, i) =>
+                  `Hạng ${i + 1}, ${p.name}, cộng 10 điểm, tổng ${p.points} điểm`,
+              )
+              .join(". ") +
+            ". "
+          : "Chưa có bạn nào trả lời đúng câu này. ") +
+        (state.rankingDue
+          ? `Bảng xếp hạng sau ${state.number} câu. ` +
+            (top.length
+              ? top
+                  .map((p, i) => `Hạng ${i + 1}, ${p.name}, ${p.points} điểm`)
+                  .join(". ") + "."
+              : "Chưa có người chơi.")
+          : "");
       const id = key + ":" + Date.now();
       report = {
         id,

@@ -126,7 +126,7 @@ window.FestivalVoiceQueue = class {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.voice = voice;
       utterance.lang = voice.lang;
-      utterance.rate = 1 + (options.rate ?? 2) / 100;
+      utterance.rate = 1 + (options.rate ?? 4) / 100;
       utterance.pitch = Math.max(0, Math.min(2, 1 + (options.pitch ?? 0) / 50));
       let done = false;
       const finish = (error) => {

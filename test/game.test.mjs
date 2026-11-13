@@ -178,25 +178,66 @@ test("pause preserves remaining time and no answer is accepted while paused", ()
   f.close();
   assert.equal(g.players.get("1").points, 10);
 });
-test("round ends after 20 questions, leaderboard scores and topic selection are correct", () => {
+test("100-question rounds restart with same occupants, seats and waiting order", () => {
   const f = setup(),
     g = f.game;
   g.configure({ category: "Toán học" });
-  g.join(person(1));
-  g.join(person(2));
+  for (let i = 0; i < 201; i++) g.join(person(i));
+  const seats = g.island().map((p) => [p.id, p.seat]);
   g.start();
-  assert.equal(g.deck.length, 20);
+  assert.equal(g.deck.length, 100);
   assert.ok(g.deck.every((q) => q.category === "Toán học"));
-  assert.equal(new Set(g.deck.map((q) => q.id)).size, 20);
-  for (let n = 1; n <= 20; n++) {
-    answer(g, 1, true);
-    answer(g, 2, n % 2 === 0);
+  for (let n = 1; n <= 100; n++) {
+    for (let i = 0; i < 200; i++) answer(g, i);
     f.close();
+    if (n === 100) {
+      assert.equal(g.snapshot().rankingAt, 100);
+      assert.equal(g.snapshot().leaderboard[0].points, 1000);
+    }
+    f.advance(5000);
+    g.tick();
+  }
+  assert.equal(g.round, 2);
+  assert.equal(g.number, 1);
+  assert.equal(g.phase, "question");
+  assert.deepEqual(
+    g.island().map((p) => [p.id, p.seat]),
+    seats,
+  );
+  assert.equal(g.players.get("200").zone, "waiting");
+  assert.equal(g.players.size, 201);
+  assert.ok(
+    g
+      .island()
+      .every(
+        (p) => p.points === 0 && p.history.length === 0 && p.strikes === 0,
+      ),
+  );
+  assert.equal(g.snapshot().rankingAt, 0);
+  assert.deepEqual(g.snapshot().leaderboard, []);
+});
+test("ranking refreshes only each ten questions and is frozen between checkpoints", () => {
+  const f = setup(),
+    g = f.game;
+  g.join(person(1));
+  g.start();
+  for (let n = 1; n <= 11; n++) {
+    answer(g, 1);
+    f.close();
+    assert.equal(g.snapshot().rankingDue, n === 10);
+    if (n < 10) assert.deepEqual(g.snapshot().leaderboard, []);
+    else {
+      assert.equal(g.snapshot().leaderboard[0].points, 100);
+      assert.equal(g.snapshot().rankingAt, 10);
+    }
     f.next();
   }
-  assert.equal(g.phase, "finished");
-  assert.equal(g.snapshot().winner.id, "1");
-  assert.equal(g.snapshot().leaderboard[0].points, 200);
+});
+test("mixed rounds have 100 unique questions when the pool is large enough", () => {
+  const { game: g } = setup();
+  g.start();
+  assert.equal(g.deck.length, 100);
+  assert.equal(new Set(g.deck.map((q) => q.id)).size, 100);
 });
 test("question bank changes require lobby/end and avatar URL rejects javascript", () => {
   const f = setup(),
@@ -211,21 +252,19 @@ test("negative and decimal answers are not confused with positive or whole numbe
   assert.notEqual(normalize("1.5"), normalize("15"));
   assert.equal(normalize("1,5"), normalize("1.5"));
 });
-test("joining after a finished empty round cannot manufacture a champion", () => {
+test("empty rounds also restart automatically after 100 questions", () => {
   const f = setup(),
     g = f.game;
   g.start();
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     f.close();
     f.next();
   }
-  assert.equal(g.phase, "finished");
-  assert.equal(g.snapshot().winner, null);
-  g.join(person("after-end"));
-  assert.equal(g.players.get("after-end").zone, "waiting");
-  assert.equal(g.snapshot().winner, null);
+  assert.equal(g.round, 2);
+  assert.equal(g.number, 1);
+  g.join(person("late"));
+  assert.equal(g.players.get("late").zone, "island");
 });
-
 test("top three are correct answers ordered by latency and stay private until reveal", () => {
   const f = setup(),
     g = f.game;
@@ -248,6 +287,7 @@ test("top three are correct answers ordered by latency and stay private until re
     ["3", "1", "4"],
   );
   assert.equal(g.snapshot().topAnswers[0].elapsed, 1000);
+  assert.equal(g.snapshot().topAnswers[0].points, 10);
 });
 test("wait for speech completion then give a full five second countdown, including pause", () => {
   const f = setup(),
@@ -273,4 +313,31 @@ test("wait for speech completion then give a full five second countdown, includi
   f.advance(60000);
   g.resume();
   assert.equal(g.deadline - g.now(), 5000);
+});
+
+test("chat keeps both player and bot comments even outside answer windows, bounded and reset per round", () => {
+  const { game: g } = setup();
+  g.comment(person("real"), "Xin chào");
+  g.comment({ ...person("bot"), demo: true }, "VÔ");
+  assert.equal(g.snapshot().chat[0].text, "Xin chào");
+  assert.equal(g.snapshot().chat[1].demo, true);
+  for (let i = 0; i < 60; i++) g.comment(person("real"), "Tin " + i);
+  assert.equal(g.snapshot().chat.length, 50);
+  assert.equal(g.snapshot().chat.at(-1).text, "Tin 59");
+  g.newRound();
+  assert.deepEqual(g.snapshot().chat, []);
+});
+
+test("fastest answer announcement includes the score after this question", () => {
+  const f = setup(),
+    g = f.game;
+  g.join(person(1));
+  g.start();
+  answer(g, 1);
+  f.close();
+  f.next();
+  answer(g, 1);
+  f.close();
+  assert.equal(g.snapshot().topAnswers[0].points, 20);
+  assert.equal(g.snapshot().topAnswers[0].correct, 2);
 });

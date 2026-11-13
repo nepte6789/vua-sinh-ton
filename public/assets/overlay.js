@@ -9,6 +9,7 @@ let current = null,
   offset = 0,
   settings = {},
   signature = "",
+  chatSignature = "",
   voicePlayer = null,
   AC = null;
 const pendingVoice = [];
@@ -57,7 +58,7 @@ function render(message) {
         ? "VÁN ĐÃ KẾT THÚC"
         : g.phase === "paused"
           ? "TẠM DỪNG"
-          : `${g.number <= 5 ? "Khởi động" : g.number <= 12 ? "Sinh tồn" : "Chung kết"} · Câu ${g.number}/20`;
+          : `${g.number <= 10 ? "Khởi động" : g.number <= 80 ? "Sinh tồn" : "Chung kết"} · Câu ${g.number}/${g.config.roundQuestions}`;
   $("phase").textContent = phase;
   $("prompt").textContent =
     g.question?.prompt || "Bạn đã sẵn sàng trở thành vua sinh tồn?";
@@ -90,13 +91,15 @@ function render(message) {
     const entry = document.createElement("div");
     entry.append(avatar(p));
     const text = document.createElement("span");
-    text.textContent = `${["🥇", "🥈", "🥉"][i]} ${p.name} · ${(p.elapsed / 1000).toFixed(2)}s`;
+    text.textContent = `${["🥇", "🥈", "🥉"][i]} ${p.name} · ${(p.elapsed / 1000).toFixed(2)}s · ${p.points}đ`;
     entry.append(text);
     $("roundPodium").append(entry);
   }
   $("reportStatus").textContent = g.question?.answer
     ? g.announcementPending
-      ? "Đang đọc TOP 3…"
+      ? g.rankingDue
+        ? "Đang đọc bảng xếp hạng…"
+        : "Đang đọc đáp án…"
       : g.config.autoNext
         ? "Câu tiếp theo sau 5 giây"
         : "Chờ chủ phòng sang câu"
@@ -165,8 +168,10 @@ function render(message) {
     $("waiting").append(cell);
   }
   $("waitingEmpty").hidden = waiting.length > 0;
+  $("rankingTitle").textContent =
+    `🏆 TOP ĐIỂM · ${g.rankingAt ? "Câu " + g.rankingAt : "Chờ câu 10"}`;
   $("ranking").replaceChildren();
-  for (const [i, p] of g.leaderboard.slice(0, 5).entries()) {
+  for (const [i, p] of g.leaderboard.slice(0, 10).entries()) {
     const li = document.createElement("li"),
       rank = document.createElement("span"),
       name = document.createElement("span"),
@@ -178,6 +183,33 @@ function render(message) {
     score.textContent = p.points;
     li.append(rank, name, score);
     $("ranking").append(li);
+  }
+  const chatKey = `${g.round}:${g.chat?.at(-1)?.id || 0}`;
+  if (chatSignature !== chatKey) {
+    chatSignature = chatKey;
+    const list = $("chatMessages");
+    list.replaceChildren();
+    for (const message of g.chat || []) {
+      const row = document.createElement("div");
+      row.className = "chat-message";
+      row.append(
+        avatar({
+          id: message.userId,
+          name: message.name,
+          avatar: message.avatar,
+        }),
+      );
+      const body = document.createElement("div"),
+        name = document.createElement("b"),
+        text = document.createElement("span");
+      name.textContent = message.name;
+      text.textContent = message.text;
+      body.append(name, text);
+      row.append(body);
+      list.append(row);
+    }
+    $("chatEmpty").hidden = !!g.chat?.length;
+    list.scrollTop = list.scrollHeight;
   }
   $("ticker").textContent = g.feed.at(-1)?.text || "Bình luận VÔ để lên đảo!";
   $("liveStatus").textContent =
