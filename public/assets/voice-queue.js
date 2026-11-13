@@ -5,6 +5,7 @@ window.FestivalVoiceQueue = class {
     duck,
     onWarning,
     onStart = () => {},
+    onFinish = () => {},
     settings = () => ({}),
     shouldPlay = () => true,
   }) {
@@ -14,6 +15,7 @@ window.FestivalVoiceQueue = class {
       duck,
       onWarning,
       onStart,
+      onFinish,
       settings,
       shouldPlay,
     });
@@ -53,6 +55,7 @@ window.FestivalVoiceQueue = class {
     } finally {
       this.duck(false);
       this.busy = false;
+      this.onFinish(message);
       this.run();
     }
   }

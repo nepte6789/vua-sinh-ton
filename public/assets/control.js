@@ -72,6 +72,10 @@ function render(m) {
   category.value = g.config.category;
   $("autoNext").checked = g.config.autoNext;
   $("voice").checked = m.settings.readQuestions;
+  if (document.activeElement !== $("botCount"))
+    $("botCount").value = m.bots.target;
+  $("botStatus").textContent =
+    `${m.bots.active}/${m.bots.target} bot trên đảo · avatar riêng · ${m.bots.enabled ? "đang chạy" : "đã tắt"}`;
   $("bots").textContent = m.demo ? "Tắt bot trả lời" : "Bật bot trả lời";
   $("start").disabled = g.phase !== "lobby";
   $("pause").disabled = !["question", "reveal"].includes(g.phase);
@@ -130,7 +134,9 @@ setInterval(() => {
       ? Math.max(0, Math.ceil((g.deadline - Date.now()) / 1000))
       : g.phase === "paused"
         ? "Ⅱ"
-        : 20;
+        : g.announcementPending
+          ? "Đang đọc"
+          : 25;
   }
   if (autoState?.enabled) {
     const remaining = autoState.nextAttemptAt
@@ -208,7 +214,12 @@ $("correct").onclick = () => {
 };
 $("fill12").onclick = () => send("fill", { count: 12 });
 $("fill200").onclick = () => send("fill", { count: 200 });
-$("bots").onclick = () => send("bots", { on: !state?.demo });
+$("bots").onclick = () =>
+  send("bots", { on: !state?.demo, count: Number($("botCount").value) });
+$("botCount").onchange = () => {
+  if (state?.demo)
+    send("bots", { on: true, count: Number($("botCount").value) });
+};
 $("filter").oninput = renderPlayers;
 function bankOptions() {
   const select = $("questionSelect");

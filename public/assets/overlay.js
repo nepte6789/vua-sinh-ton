@@ -85,6 +85,22 @@ function render(message) {
   $("reveal").hidden = !g.question?.answer;
   $("answer").textContent = g.question?.answer || "";
   $("explanation").textContent = g.question?.explanation || "";
+  $("roundPodium").replaceChildren();
+  for (const [i, p] of (g.topAnswers || []).entries()) {
+    const entry = document.createElement("div");
+    entry.append(avatar(p));
+    const text = document.createElement("span");
+    text.textContent = `${["🥇", "🥈", "🥉"][i]} ${p.name} · ${(p.elapsed / 1000).toFixed(2)}s`;
+    entry.append(text);
+    $("roundPodium").append(entry);
+  }
+  $("reportStatus").textContent = g.question?.answer
+    ? g.announcementPending
+      ? "Đang đọc TOP 3…"
+      : g.config.autoNext
+        ? "Câu tiếp theo sau 5 giây"
+        : "Chờ chủ phòng sang câu"
+    : "";
   $("locked").textContent = `✍ ${g.answered}/${g.islandCount} đã chốt`;
   $("joinBanner").textContent =
     g.islandCount < 200
@@ -184,16 +200,17 @@ function timer() {
   if (!current) return;
   const remaining = current.deadline
     ? Math.max(0, (current.deadline - (Date.now() + offset)) / 1000)
-    : 20;
-  $("seconds").textContent =
-    current.phase === "paused"
+    : current.config.questionSeconds;
+  $("seconds").textContent = current.announcementPending
+    ? "♫"
+    : current.phase === "paused"
       ? "Ⅱ"
       : current.phase === "lobby"
-        ? "20"
+        ? String(current.config.questionSeconds)
         : Math.ceil(remaining);
   $("timerBar").style.width =
     (current.phase === "question"
-      ? Math.min(100, (remaining / 20) * 100)
+      ? Math.min(100, (remaining / current.config.questionSeconds) * 100)
       : 100) + "%";
   document
     .querySelector(".timer-track")
@@ -225,9 +242,15 @@ $("soundButton").onclick = async () => {
     shouldPlay: (m) =>
       m.round === current?.round &&
       m.number === current?.number &&
-      m.phase === current?.phase,
+      m.phase ===
+        (current?.phase === "paused" ? current.pausedPhase : current?.phase),
+    onFinish: (m) => {
+      if (m.reportToken)
+        ws.send(JSON.stringify({ t: "ttsDone", reportToken: m.reportToken }));
+    },
     onWarning: (text) => ($("audioWarning").textContent = text),
   });
+  ws.send(JSON.stringify({ t: "audioReady", ready: true }));
   $("soundButton").hidden = true;
   flushVoice();
 };
@@ -241,6 +264,8 @@ const ws = new LiveSocket(
     }
   },
   (status) => {
+    if (status === "connected" && AC?.state === "running")
+      ws.send(JSON.stringify({ t: "audioReady", ready: true }));
     if (status !== "connected")
       $("liveStatus").textContent = "Đang nối lại server…";
   },

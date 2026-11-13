@@ -39,12 +39,12 @@ test("120 questions across six topics have unique ids and valid answers", () => 
   assert.equal(validateQuestions(bank).length, 120);
   assert.throws(() => validateQuestions([...bank, bank[0]]));
 });
-test("server enforces 20 seconds, first answer, and does not reveal answer early", () => {
+test("server enforces 25 seconds, first answer, and does not reveal answer early", () => {
   const f = setup(),
     g = f.game;
   g.join(person(1));
   g.start();
-  assert.equal(g.deadline - g.openedAt, 20000);
+  assert.equal(g.deadline - g.openedAt, 25000);
   assert.equal(g.snapshot().question.answer, undefined);
   f.setNow(g.deadline - 1);
   assert.equal(answer(g, 1, false).ok, true);
@@ -173,7 +173,7 @@ test("pause preserves remaining time and no answer is accepted while paused", ()
   assert.equal(g.phase, "paused");
   assert.equal(answer(g, 1, true).ok, false);
   g.resume();
-  assert.equal(g.deadline - g.now(), 15000);
+  assert.equal(g.deadline - g.now(), 20000);
   answer(g, 1, true);
   f.close();
   assert.equal(g.players.get("1").points, 10);
@@ -224,4 +224,53 @@ test("joining after a finished empty round cannot manufacture a champion", () =>
   g.join(person("after-end"));
   assert.equal(g.players.get("after-end").zone, "waiting");
   assert.equal(g.snapshot().winner, null);
+});
+
+test("top three are correct answers ordered by latency and stay private until reveal", () => {
+  const f = setup(),
+    g = f.game;
+  for (let i = 1; i <= 5; i++) g.join(person(i));
+  g.start();
+  f.advance(500);
+  answer(g, 5, false);
+  f.advance(500);
+  answer(g, 3);
+  f.advance(500);
+  answer(g, 1);
+  f.advance(500);
+  answer(g, 4);
+  f.advance(500);
+  answer(g, 2);
+  assert.deepEqual(g.snapshot().topAnswers, []);
+  f.close();
+  assert.deepEqual(
+    g.snapshot().topAnswers.map((p) => p.id),
+    ["3", "1", "4"],
+  );
+  assert.equal(g.snapshot().topAnswers[0].elapsed, 1000);
+});
+test("wait for speech completion then give a full five second countdown, including pause", () => {
+  const f = setup(),
+    g = f.game;
+  g.start();
+  g.waitForAnnouncement = true;
+  f.close();
+  assert.equal(g.deadline, null);
+  f.advance(90000);
+  g.tick();
+  assert.equal(g.number, 1);
+  g.finishAnnouncement();
+  assert.equal(g.deadline - g.now(), 5000);
+  f.advance(4999);
+  g.tick();
+  assert.equal(g.number, 1);
+  f.advance(1);
+  g.tick();
+  assert.equal(g.number, 2);
+  f.close();
+  g.pause();
+  g.finishAnnouncement();
+  f.advance(60000);
+  g.resume();
+  assert.equal(g.deadline - g.now(), 5000);
 });
