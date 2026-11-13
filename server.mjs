@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline";
 import { WebSocketServer } from "ws";
 import { Game, validateQuestions } from "./src/game.mjs";
+import { BotDirector, botAvatar } from "./src/bots.mjs";
 import { resolveLiveUser } from "./src/live-user.mjs";
 import {
   buildTikTokConnectionOptions,
@@ -44,8 +45,7 @@ const aliases = new Map(),
     rate: 2,
     readQuestions: true,
   };
-let demoTimer = null,
-  demoSerial = 0;
+let demoSerial = 0;
 function log(text) {
   const item = `[${new Date().toLocaleTimeString("vi-VN")}] ${text}`;
   logs.push(item);
@@ -59,7 +59,8 @@ const envelope = () => ({
   live,
   autoConnect: auto.state,
   settings,
-  demo: !!demoTimer,
+  demo: botDirector.enabled,
+  bots: botDirector.state(),
   simulation: [...game.players.values()].some((p) => p.demo),
 });
 let updateTimer = null;
@@ -80,12 +81,27 @@ function broadcast(message, role) {
     }
 }
 // Questions are spoken only on a phase transition, not for every incoming answer.
-let announced = "";
+let announcedQuestion = "",
+  announcedReveal = "",
+  report = null;
+const audioReady = () =>
+  [...wss.clients].find(
+    (c) => c.role === "overlay" && c.audioReady && c.readyState === 1,
+  );
+function cancelReport() {
+  if (report) clearTimeout(report.timer);
+  report = null;
+}
+function finishReport() {
+  cancelReport();
+  game.finishAnnouncement();
+}
 let voiceBusy = false;
 const voiceQueue = [];
-function speak(text) {
+function speak(text, extra = {}) {
   voiceQueue.push({
     text,
+    ...extra,
     round: game.round,
     number: game.number,
     phase: game.phase,
@@ -95,7 +111,8 @@ function speak(text) {
 const currentVoice = (item) =>
   item.round === game.round &&
   item.number === game.number &&
-  item.phase === game.phase;
+  item.phase === (game.phase === "paused" ? game.paused?.phase : game.phase) &&
+  (!item.reportToken || item.reportToken === report?.id);
 async function pumpVoice() {
   if (voiceBusy || !voiceQueue.length) return;
   voiceBusy = true;
@@ -128,19 +145,47 @@ async function pumpVoice() {
   }
 }
 const tick = setInterval(() => {
+  game.waitForAnnouncement = !!settings.readQuestions && !!audioReady();
   game.tick();
-  const key = `${game.round}:${game.number}:${game.phase}`;
-  if (key !== announced) {
-    announced = key;
-    if (settings.readQuestions && game.phase === "question")
-      speak(
-        `Câu ${game.number}. ${game.snapshot().question.prompt} Bạn có hai mươi giây trả lời.`,
-      );
-    if (settings.readQuestions && game.phase === "reveal")
-      speak(
-        `Đáp án: ${game.snapshot().question.answer}. ${game.snapshot().question.explanation}`,
-      );
+  botDirector.tick();
+  const key = game.round + ":" + game.number;
+  if (
+    game.phase === "question" &&
+    announcedQuestion !== key &&
+    settings.readQuestions &&
+    audioReady()
+  ) {
+    announcedQuestion = key;
+    speak(
+      `Câu ${game.number}. ${game.snapshot().question.prompt} Bạn có hai mươi lăm giây trả lời.`,
+    );
   }
+  if (game.phase === "reveal" && announcedReveal !== key) {
+    announcedReveal = key;
+    cancelReport();
+    if (settings.readQuestions && audioReady()) {
+      const state = game.snapshot(),
+        top = state.topAnswers;
+      const text =
+        `Đáp án: ${state.question.answer}. ` +
+        (top.length
+          ? `Chúc mừng ${top.length} bạn trả lời đúng nhanh nhất: ` +
+            top.map((p, i) => `hạng ${i + 1}, ${p.name}`).join(". ") +
+            "."
+          : "Chưa có bạn nào trả lời đúng câu này.");
+      const id = key + ":" + Date.now();
+      report = {
+        id,
+        reader: audioReady(),
+        timer: setTimeout(() => {
+          log("Hết thời gian chờ giọng đọc; tiếp tục sau 5 giây.");
+          finishReport();
+        }, 90000),
+      };
+      speak(text, { reportToken: id });
+    } else game.finishAnnouncement();
+  }
+  if (game.announcementPending && !audioReady()) finishReport();
 }, 150);
 async function disconnect() {
   version++;
@@ -251,18 +296,11 @@ function demoFill(count) {
   }
   changed();
 }
-function bots(on) {
-  clearInterval(demoTimer);
-  demoTimer = null;
-  if (on)
-    demoTimer = setInterval(() => {
-      if (game.phase !== "question") return;
-      for (const p of game.players.values())
-        if (p.demo && !game.submissions.has(p.id) && Math.random() < 0.12) {
-          const q = game.deck[game.number - 1];
-          game.submit(p.id, Math.random() < 0.65 ? q.answers[0] : "chưa biết");
-        }
-    }, 700);
+const botDirector = new BotDirector(game, {
+  avatarBase: `http://localhost:${PORT}`,
+});
+function bots(on, count = botDirector.target) {
+  botDirector.configure(on, count);
   changed();
 }
 async function control(message) {
@@ -278,6 +316,7 @@ async function control(message) {
       game.start();
       break;
     case "newRound":
+      cancelReport();
       bots(false);
       game.newRound();
       break;
@@ -288,9 +327,11 @@ async function control(message) {
       game.resume();
       break;
     case "reveal":
+      game.waitForAnnouncement = !!settings.readQuestions && !!audioReady();
       game.closeQuestion();
       break;
     case "next":
+      cancelReport();
       game.next();
       break;
     case "configure":
@@ -314,10 +355,11 @@ async function control(message) {
       break;
     }
     case "bots":
-      bots(!!message.on);
+      bots(!!message.on, message.count ?? botDirector.target);
       break;
     case "voice":
       settings.readQuestions = !!message.enabled;
+      if (!settings.readQuestions) finishReport();
       changed();
       break;
     default:
@@ -354,6 +396,17 @@ const server = http.createServer(async (req, res) => {
     return;
   }
   const url = new URL(req.url, "http://localhost");
+  const avatar = url.pathname.match(/^\/avatar\/(\d{1,6})\.svg$/);
+  if (avatar && req.method === "GET") {
+    res
+      .writeHead(200, {
+        "Content-Type": "image/svg+xml",
+        "Cache-Control": "public, max-age=86400",
+      })
+      .end(botAvatar(avatar[1]));
+    return;
+  }
+
   if (url.pathname === "/api/questions" && req.method === "GET") {
     res
       .writeHead(200, {
@@ -443,6 +496,10 @@ wss.on("connection", (socket, req) => {
     new URL(req.url, "http://x").searchParams.get("role") === "control"
       ? "control"
       : "overlay";
+  socket.audioReady = false;
+  socket.on("close", () => {
+    if (report?.reader === socket) finishReport();
+  });
   socket.alive = true;
   socket.on("pong", () => (socket.alive = true));
   socket.on("error", () => {});
@@ -452,6 +509,15 @@ wss.on("connection", (socket, req) => {
   socket.on("message", async (raw) => {
     try {
       const m = JSON.parse(raw);
+      if (socket.role === "overlay" && m.t === "audioReady") {
+        socket.audioReady = !!m.ready;
+        return;
+      }
+      if (socket.role === "overlay" && m.t === "ttsDone") {
+        if (report?.reader === socket && report.id === m.reportToken)
+          finishReport();
+        return;
+      }
       if (m.t === "ping") {
         socket.send(JSON.stringify({ t: "pong" }));
         return;
@@ -502,10 +568,10 @@ server.listen(PORT, HOST, () => {
   }
 });
 function shutdown() {
+  cancelReport();
   clearInterval(tick);
   clearInterval(heartbeat);
   clearTimeout(updateTimer);
-  clearInterval(demoTimer);
   auto.stop();
   disconnect().finally(() => {
     for (const s of wss.clients) s.terminate();

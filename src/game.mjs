@@ -76,7 +76,7 @@ export class Game extends EventEmitter {
     this.random = random;
     this.config = {
       capacity: 200,
-      questionSeconds: 20,
+      questionSeconds: 25,
       roundQuestions: 20,
       historySize: 6,
       minCorrect: 3,
@@ -137,6 +137,8 @@ export class Game extends EventEmitter {
     this.openQuestion();
   }
   newRound() {
+    this.topAnswers = [];
+    this.announcementPending = false;
     this.winnerResult = null;
     this.round++;
     this.phase = "lobby";
@@ -162,10 +164,12 @@ export class Game extends EventEmitter {
       return;
     }
     this.number++;
+    this.topAnswers = [];
+    this.announcementPending = false;
     this.phase = "question";
     this.submissions.clear();
     this.openedAt = this.now();
-    this.deadline = this.openedAt + 20000;
+    this.deadline = this.openedAt + this.config.questionSeconds * 1000;
     this.update();
   }
   join({ id, name, avatar = "", demo = false }) {
@@ -282,6 +286,24 @@ export class Game extends EventEmitter {
     if (this.phase !== "question") return;
     const question = this.deck[this.number - 1],
       accepted = new Set(question.answers.map(normalize));
+    this.topAnswers = [...this.submissions]
+      .filter(
+        ([id, a]) =>
+          this.players.has(id) &&
+          this.players.get(id).zone !== "out" &&
+          accepted.has(a.answer),
+      )
+      .sort(
+        (a, b) =>
+          a[1].elapsed - b[1].elapsed ||
+          a[1].at - b[1].at ||
+          this.players.get(a[0]).joined - this.players.get(b[0]).joined,
+      )
+      .slice(0, 3)
+      .map(([id, a]) => ({
+        ...publicPlayer(this.players.get(id)),
+        elapsed: a.elapsed,
+      }));
     for (const p of this.players.values()) {
       if (p.zone === "out") continue;
       const submission = this.submissions.get(p.id),
@@ -316,7 +338,19 @@ export class Game extends EventEmitter {
     }
     this.phase = "reveal";
     this.fillSeats();
-    this.deadline = this.now() + this.config.revealSeconds * 1000;
+    this.announcementPending = !!this.waitForAnnouncement;
+    this.deadline = this.announcementPending
+      ? null
+      : this.now() + this.config.revealSeconds * 1000;
+    this.update();
+  }
+  finishAnnouncement() {
+    if (!this.announcementPending) return;
+    this.announcementPending = false;
+    if (this.phase === "reveal")
+      this.deadline = this.now() + this.config.revealSeconds * 1000;
+    else if (this.phase === "paused" && this.paused?.phase === "reveal")
+      this.paused.remaining = this.config.revealSeconds * 1000;
     this.update();
   }
   next() {
@@ -330,6 +364,8 @@ export class Game extends EventEmitter {
     else if (
       this.phase === "reveal" &&
       this.config.autoNext &&
+      !this.announcementPending &&
+      this.deadline !== null &&
       this.now() >= this.deadline
     )
       this.next();
@@ -338,7 +374,9 @@ export class Game extends EventEmitter {
     if (!["question", "reveal"].includes(this.phase)) return;
     this.paused = {
       phase: this.phase,
-      remaining: Math.max(0, this.deadline - this.now()),
+      remaining: this.announcementPending
+        ? null
+        : Math.max(0, this.deadline - this.now()),
       at: this.now(),
     };
     this.phase = "paused";
@@ -348,7 +386,10 @@ export class Game extends EventEmitter {
   resume() {
     if (this.phase !== "paused") return;
     this.phase = this.paused.phase;
-    this.deadline = this.now() + this.paused.remaining;
+    this.deadline =
+      this.paused.remaining === null
+        ? null
+        : this.now() + this.paused.remaining;
     this.openedAt += this.now() - this.paused.at;
     this.paused = null;
     this.update();
@@ -387,6 +428,9 @@ export class Game extends EventEmitter {
       config: this.config,
       question,
       deadline: this.deadline,
+      pausedPhase: this.paused?.phase || null,
+      announcementPending: !!this.announcementPending,
+      topAnswers: revealed ? this.topAnswers || [] : [],
       serverTime: this.now(),
       players: [...this.players.values()].map((p) => ({
         ...publicPlayer(p),

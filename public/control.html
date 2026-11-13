@@ -69,13 +69,13 @@
             </select></label
           ><label class="checkbox"
             ><input type="checkbox" id="autoNext" checked /> Tự sang câu sau 5
-            giây đáp án</label
+            giây sau khi đọc TOP 3</label
           >
         </div>
         <div class="game-stats">
           <div><b id="roundStat">1</b><small>Ván</small></div>
           <div><b id="questionStat">0/20</b><small>Câu hỏi</small></div>
-          <div><b id="timeStat">20</b><small>Giây còn lại</small></div>
+          <div><b id="timeStat">25</b><small>Giây còn lại</small></div>
           <div><b id="lockedStat">0</b><small>Đã chốt</small></div>
         </div>
         <div class="controls">
@@ -90,8 +90,8 @@
           Đảo đang chờ người chơi…
         </p>
         <label class="checkbox"
-          ><input type="checkbox" id="voice" checked /> Đọc câu hỏi và đáp án
-          bằng giọng nữ Hoài My</label
+          ><input type="checkbox" id="voice" checked /> Đọc câu hỏi, đáp án và
+          TOP 3 bằng giọng nữ Hoài My</label
         >
         <p class="hint">
           Bấm bật giọng đọc trên màn hình đảo một lần. Nếu dịch vụ Edge lỗi, thử
@@ -117,6 +117,16 @@
           ><button id="fill200">Thử đủ 200 người</button
           ><button id="bots">Bật bot trả lời</button>
         </div>
+        <label for="botCount">Số bot trên đảo (10–100)</label
+        ><input
+          id="botCount"
+          type="number"
+          min="10"
+          max="100"
+          step="1"
+          value="12"
+        />
+        <p id="botStatus" class="hint"></p>
         <p class="hint">
           Dữ liệu mô phỏng được đánh dấu riêng. Không tạo bình luận hoặc người
           xem trên TikTok.
@@ -229,7 +239,7 @@
       </section>
     </main>
     <footer>
-      VUA SINH TỒN · 200 người trên đảo · 20 giây mỗi câu · Đúng 3/6 để ở lại
+      VUA SINH TỒN · 200 người trên đảo · 25 giây mỗi câu · Đúng 3/6 để ở lại
     </footer>
     <script src="/assets/live-socket.js"></script>
     <script src="/assets/control.js"></script>
