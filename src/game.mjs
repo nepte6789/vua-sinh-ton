@@ -76,7 +76,7 @@ export class Game extends EventEmitter {
     this.random = random;
     this.config = {
       capacity: 200,
-      questionSeconds: 25,
+      questionSeconds: 20,
       roundQuestions: 100,
       rankingEvery: 10,
       historySize: 6,
@@ -185,6 +185,21 @@ export class Game extends EventEmitter {
     this.feed = [];
     this.chat = [];
     this.note("Đảo mở cửa · bình luận VÔ để tham gia!");
+    this.update();
+  }
+  clearSimulated() {
+    for (const [id, p] of this.players)
+      if (p.demo) {
+        this.players.delete(id);
+        this.submissions.delete(id);
+      }
+    this.topAnswers = (this.topAnswers || []).filter((p) =>
+      this.players.has(p.id),
+    );
+    this.ranking = this.ranking.filter((p) => this.players.has(p.id));
+    this.chat = this.chat.filter((m) => !m.demo);
+    this.fillSeats();
+    this.note("Đã xóa toàn bộ người thử và bot.");
     this.update();
   }
   restartWithPlayers() {

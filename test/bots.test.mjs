@@ -60,7 +60,7 @@ test("bots can answer incorrectly or skip without bypassing survival rules", () 
   b.configure(true, 10);
   g.start();
   b.tick();
-  advance(23000);
+  advance(19800);
   b.tick();
   g.closeQuestion();
   assert.ok(b.managed().every((p) => p.points === 0 && p.strikes === 0));

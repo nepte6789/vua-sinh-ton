@@ -157,7 +157,7 @@ const tick = setInterval(() => {
   ) {
     announcedQuestion = key;
     speak(
-      `Câu ${game.number}. ${game.snapshot().question.prompt} Bạn có hai mươi lăm giây trả lời.`,
+      `Câu ${game.number}. ${game.snapshot().question.prompt} Bạn có hai mươi giây trả lời.`,
     );
   }
   if (game.phase === "reveal" && announcedReveal !== key) {
@@ -354,6 +354,7 @@ async function control(message) {
       const user = {
         id: "sim-" + String(message.name || "Khách").slice(0, 30),
         name: String(message.name || "Khách").slice(0, 30),
+        demo: true,
       };
       const r = game.comment(user, String(message.text || "").slice(0, 200));
       broadcast(
@@ -367,6 +368,10 @@ async function control(message) {
       demoFill(count === 200 ? 200 - game.island().length : count);
       break;
     }
+    case "clearSimulated":
+      bots(false);
+      game.clearSimulated();
+      break;
     case "bots":
       bots(!!message.on, message.count ?? botDirector.target);
       break;

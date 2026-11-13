@@ -136,7 +136,7 @@ setInterval(() => {
         ? "Ⅱ"
         : g.announcementPending
           ? "Đang đọc"
-          : 25;
+          : 20;
   }
   if (autoState?.enabled) {
     const remaining = autoState.nextAttemptAt
@@ -353,3 +353,12 @@ fetch("/api/questions")
     bankOptions();
   })
   .catch((e) => notice(e.message));
+
+$("clearSimulated").onclick = () => {
+  if (
+    confirm(
+      "Xóa tất cả người thử và bot hiện tại? Người chơi TikTok thật được giữ lại.",
+    )
+  )
+    send("clearSimulated");
+};

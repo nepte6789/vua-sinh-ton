@@ -38,7 +38,7 @@
         <div class="question-bottom">
           <div class="timer-track">
             <div id="timerBar"></div>
-            <strong id="seconds">25</strong>
+            <strong id="seconds">20</strong>
           </div>
           <span id="locked">✍ 0/0 đã chốt</span>
         </div>
@@ -92,7 +92,20 @@
         <span id="liveStatus">Đang kết nối server…</span
         ><span id="clock"></span>
       </div>
-      <button id="soundButton">🔊 Bật giọng đọc câu hỏi</button>
+      <button id="soundButton">🔊 Bật giọng đọc và nhạc nền</button>
+      <div id="musicControls" hidden>
+        <button id="musicToggle" type="button">♫ Tắt nhạc</button
+        ><label
+          >Âm lượng nhạc
+          <input
+            id="musicVolume"
+            type="range"
+            min="0"
+            max="35"
+            value="18"
+            aria-label="Âm lượng nhạc nền"
+        /></label>
+      </div>
       <div id="audioWarning" role="status"></div>
       <div id="winner" hidden>
         <small>NHÀ VÔ ĐỊCH VÁN NÀY</small>
@@ -103,6 +116,7 @@
     </main>
     <script src="/assets/live-socket.js"></script>
     <script src="/assets/voice-queue.js"></script>
+    <script src="/assets/island-music.js"></script>
     <script src="/assets/overlay.js"></script>
   </body>
 </html>
