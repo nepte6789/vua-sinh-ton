@@ -159,9 +159,9 @@ ws = new LiveSocket(
         notice(
           {
             locked: "Bạn đã chốt câu trả lời đầu tiên.",
-            not_joined: "Bình luận VÔ trước khi trả lời.",
+            not_joined: "Bình luận hoặc trả lời để tự tham gia.",
             closed: "Câu hỏi chưa mở hoặc đã hết giờ.",
-            out: "Bạn đã rời đảo, bình luận VÔ để tham gia lại.",
+            out: "Bạn đã rời đảo, bình luận hoặc trả lời để tham gia lại.",
           }[m.result.reason] || "Không nhận được lệnh.",
         );
       else notice("Đã nhận bình luận thử.");
@@ -206,7 +206,7 @@ $("simText").onkeydown = (e) => {
   if (e.key === "Enter") $("send").click();
 };
 $("join").onclick = () =>
-  send("simulate", { name: $("simName").value, text: "VÔ" });
+  send("simulate", { name: $("simName").value, text: "Xin chào" });
 $("correct").onclick = () => {
   const q = bank.find((q) => q.id === state?.game.question?.id);
   if (!q) return notice("Chưa có câu hỏi đang mở.");

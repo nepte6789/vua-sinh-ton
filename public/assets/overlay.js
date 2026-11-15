@@ -108,8 +108,8 @@ function render(message) {
   $("locked").textContent = `✍ ${g.answered}/${g.islandCount} đã chốt`;
   $("joinBanner").textContent =
     g.islandCount < 200
-      ? "📜 Bình luận VÔ để lên đảo · tham gia bất kỳ lúc nào"
-      : "🛟 Đảo đủ 200 người · bình luận VÔ để vào hàng chờ";
+      ? "📜 Bình luận hoặc trả lời để lên đảo · tham gia bất kỳ lúc nào"
+      : "🛟 Đảo đủ 200 người · bình luận để vào hàng chờ";
   $("waitingCount").textContent = g.waitingCount;
   $("rescueRule").textContent = "Tự lên theo thứ tự khi đảo còn chỗ";
   const taken = new Map(
@@ -212,7 +212,8 @@ function render(message) {
     $("chatEmpty").hidden = !!g.chat?.length;
     list.scrollTop = list.scrollHeight;
   }
-  $("ticker").textContent = g.feed.at(-1)?.text || "Bình luận VÔ để lên đảo!";
+  $("ticker").textContent =
+    g.feed.at(-1)?.text || "Bình luận hoặc trả lời để lên đảo!";
   $("liveStatus").textContent =
     message.live.status === "connected"
       ? `● TikTok @${message.live.uniqueId} · ${message.live.chatCount} bình luận`
@@ -313,3 +314,43 @@ $("musicToggle").onclick = () => {
 };
 $("musicVolume").oninput = () =>
   music?.setVolume(Number($("musicVolume").value) / 100);
+
+function renderAnswerPopups() {
+  const container = $("answerPopups");
+  const recent = (current?.answerEvents || [])
+    .filter(
+      (m) =>
+        Date.now() + offset - m.at < 5000 &&
+        m.round === current.round &&
+        m.number === current.number,
+    )
+    .slice(-3);
+  const ids = new Set(recent.map((m) => String(m.id)));
+  for (const element of [...container.children])
+    if (!ids.has(element.dataset.id)) element.remove();
+  for (const message of recent) {
+    if (
+      [...container.children].some((el) => el.dataset.id === String(message.id))
+    )
+      continue;
+    const toast = document.createElement("div");
+    toast.className = "answer-toast";
+    toast.dataset.id = message.id;
+    toast.append(
+      avatar({
+        id: message.userId,
+        name: message.name,
+        avatar: message.avatar,
+      }),
+    );
+    const body = document.createElement("div"),
+      name = document.createElement("b"),
+      text = document.createElement("span");
+    name.textContent = message.name + " vừa trả lời";
+    text.textContent = "“" + message.text + "”";
+    body.append(name, text);
+    toast.append(body);
+    container.append(toast);
+  }
+}
+setInterval(renderAnswerPopups, 100);

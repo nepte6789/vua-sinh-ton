@@ -785,3 +785,67 @@ textarea:focus-visible {
   width: 95px;
   accent-color: #0b6889;
 }
+
+.answer-popups {
+  position: absolute;
+  top: 1080px;
+  right: 55px;
+  width: 420px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.answer-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 2px solid #ffe377;
+  border-radius: 22px;
+  background: #073b5cf0;
+  box-shadow: 0 8px 25px #00283f44;
+  animation: answer-arrive 0.25s ease-out;
+}
+.answer-toast .avatar {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+.answer-toast > div {
+  min-width: 0;
+}
+.answer-toast b {
+  display: block;
+  font-size: 19px;
+  color: #ffe377;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.answer-toast span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-size: 22px;
+  color: #fff9e4;
+  line-height: 1.3;
+}
+@keyframes answer-arrive {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .answer-toast {
+    animation: none;
+  }
+}
