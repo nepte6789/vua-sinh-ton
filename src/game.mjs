@@ -97,6 +97,8 @@ export class Game extends EventEmitter {
     this.deadline = null;
     this.serial = 0;
     this.chatSerial = 0;
+    this.answerEvents = [];
+    this.answerSerial = 0;
     this.ranking = [];
     this.rankingAt = 0;
   }
@@ -179,12 +181,14 @@ export class Game extends EventEmitter {
     this.deadline = null;
     this.serial = 0;
     this.chatSerial = 0;
+    this.answerEvents = [];
+    this.answerSerial = 0;
     this.ranking = [];
     this.rankingAt = 0;
     this.paused = null;
     this.feed = [];
     this.chat = [];
-    this.note("Đảo mở cửa · bình luận VÔ để tham gia!");
+    this.note("Đảo mở cửa · bình luận bất kỳ để tham gia!");
     this.update();
   }
   clearSimulated() {
@@ -198,6 +202,9 @@ export class Game extends EventEmitter {
     );
     this.ranking = this.ranking.filter((p) => this.players.has(p.id));
     this.chat = this.chat.filter((m) => !m.demo);
+    this.answerEvents = this.answerEvents.filter((m) =>
+      this.players.has(m.userId),
+    );
     this.fillSeats();
     this.note("Đã xóa toàn bộ người thử và bot.");
     this.update();
@@ -234,6 +241,7 @@ export class Game extends EventEmitter {
     this.topAnswers = [];
     this.announcementPending = false;
     this.phase = "question";
+    this.answerEvents = [];
     this.submissions.clear();
     this.openedAt = this.now();
     this.deadline = this.openedAt + this.config.questionSeconds * 1000;
@@ -341,15 +349,28 @@ export class Game extends EventEmitter {
       at: this.now(),
       elapsed: this.now() - this.openedAt,
     });
+    this.answerEvents.push({
+      id: ++this.answerSerial,
+      userId: p.id,
+      name: p.name,
+      avatar: p.avatar,
+      text: String(text).trim().slice(0, 500),
+      at: this.now(),
+      round: this.round,
+      number: this.number,
+    });
+    if (this.answerEvents.length > 50) this.answerEvents.shift();
     this.update();
     return { ok: true };
   }
   comment(user, text) {
-    this.recordChat(user, text);
+    if (!String(text ?? "").trim()) return { ok: false, reason: "empty" };
+    const joined = this.join(user);
+    if (!joined.ok) return joined;
+    this.recordChat(joined.player, text);
     this.update();
-    return ["vo", "vao", "lendao"].includes(normalize(text))
-      ? this.join(user)
-      : this.submit(user.id, text);
+    if (this.phase !== "question") return joined;
+    return this.submit(joined.player.id, text);
   }
   closeQuestion() {
     if (this.phase !== "question") return;
@@ -399,7 +420,7 @@ export class Game extends EventEmitter {
           p.zone = "out";
           p.seat = null;
           this.note(
-            `${p.name} rời đảo: ${reason}. Bình luận VÔ để trở lại.`,
+            `${p.name} rời đảo: ${reason}. Bình luận hoặc trả lời để trở lại.`,
             "out",
           );
         }
@@ -529,6 +550,9 @@ export class Game extends EventEmitter {
       winner: this.phase === "finished" ? this.winnerResult : null,
       feed: this.feed,
       chat: this.chat,
+      answerEvents: this.answerEvents.filter(
+        (m) => this.players.has(m.userId) && this.now() - m.at < 5000,
+      ),
       categories: [...new Set(this.bank.map((q) => q.category))],
     };
   }

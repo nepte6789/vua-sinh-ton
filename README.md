@@ -20,12 +20,12 @@ npm start
 
 Đã áp dụng bản thay đổi mới nhất:
 
-1. Bình luận **VÔ** (`vo`, `vào` cũng được nhận) ở **bất kỳ câu nào** để lên đảo. Đảo tối đa **200 người**; đủ chỗ thì vào hàng chờ theo thứ tự.
+1. Bình luận bất kỳ hoặc trả lời câu hỏi ở **bất kỳ câu nào** để lên đảo. Đảo tối đa **200 người**; đủ chỗ thì vào hàng chờ theo thứ tự.
 2. Mỗi ván **100 câu**, mỗi câu **20 giây**. Đồng hồ và hạn chốt do server quyết định, không phụ thuộc đồng hồ đếm ngược của trình duyệt.
 3. Chỉ tính **câu trả lời đầu tiên** của mỗi người trong mỗi câu. Đúng **+10 điểm**; không phân biệt dấu tiếng Việt, hoa/thường và khoảng cách. Câu toán trả lời bằng số. Hỗ trợ số âm/thập phân khi thêm câu hỏi.
 4. **Không trả lời 3 câu liên tiếp**: bị mời khỏi đảo. Trả lời sai vẫn được tính là đã trả lời, nên không cộng lần vắng.
 5. Sau khi tham gia đủ **6 câu trên đảo**, cần đúng ít nhất **3 trong 6 câu gần nhất** để ở lại. Đây là cửa sổ trượt: đánh giá lại sau mỗi câu. Trước khi đủ 6 câu chỉ áp dụng điều kiện vắng 3 câu liên tiếp.
-6. Người bị loại không tự vào hàng chờ. Họ có thể bình luận **VÔ** để đăng ký lại; điểm trong ván được giữ, lịch sử 6 câu và lần vắng bắt đầu lại sau khi lên đảo. Gửi VÔ khi đang ở trên đảo không xóa lịch sử hay điểm phạt.
+6. Người bị loại không tự vào hàng chờ. Họ có thể bình luận hoặc trả lời để đăng ký lại; điểm trong ván được giữ, lịch sử 6 câu và lần vắng bắt đầu lại sau khi lên đảo. Bình luận tiếp khi đang ở trên đảo không xóa lịch sử hay điểm phạt.
 7. Khi có ghế trống, hàng chờ **tự lên theo thứ tự**; không cần đúng 3 câu liên tiếp để quay lại. **Không còn** giới hạn vào tới câu 5 hay cứu hộ tới câu 12. Người ở hàng chờ vẫn có thể trả lời lấy điểm, nhưng chưa bị chấm điều kiện trụ đảo.
 8. Xếp hạng theo điểm, số câu đúng rồi tổng thời gian trả lời đúng (nhanh hơn ưu tiên). Bảng điểm cập nhật sau mỗi 10 câu. Hết câu 100 tự sang ván mới và giữ nguyên người đang trên đảo.
 
@@ -89,7 +89,7 @@ File nhập là mảng các đối tượng này, tối thiểu 20 câu, tối �
 npm test
 ```
 
-Các test kiểm tra 200 ghế, hàng chờ FIFO, hạn 20 giây, khóa đáp án đầu tiên, 3 câu vắng, cửa sổ trượt 3/6, VÔ lại, tham gia sau câu 12, pause/resume, xếp hạng và câu hỏi nhiều chủ đề. Màn hình và điều khiển cũng được thử bằng Chromium với 200 người mô phỏng; không đồng nghĩa kết nối TikTok/Edge ở mọi mạng đã được xác minh.
+Các test kiểm tra 200 ghế, hàng chờ FIFO, hạn 20 giây, khóa đáp án đầu tiên, 3 câu vắng, cửa sổ trượt 3/6, tự tham gia lại, tham gia sau câu 12, pause/resume, xếp hạng và câu hỏi nhiều chủ đề. Màn hình và điều khiển cũng được thử bằng Chromium với 200 người mô phỏng; không đồng nghĩa kết nối TikTok/Edge ở mọi mạng đã được xác minh.
 
 ## Cấu trúc
 
@@ -125,3 +125,5 @@ Bot bị loại không tự quay lại sau vài giây. Khi bật bot, sau mỗi 
 Bấm “Bật giọng đọc và nhạc nền” một lần trên màn hình đảo. Nhạc Island Sunshine được tạo riêng bằng bộ tổng hợp âm thanh trong trình duyệt, không dùng bản thu hay sample bên thứ ba. Nhạc mặc định nhỏ (18%, giới hạn 35%), tự giảm còn 16% mức đang đặt khi có giọng đọc. Có nút bật/tắt và thanh âm lượng; giọng đọc vẫn hoạt động khi tắt nhạc. Không thể bảo đảm TikTok không nhận nhầm bản quyền.
 
 Nút “Xóa tất cả người thử và bot” ở bảng điều khiển xóa dữ liệu mô phỏng, tắt bot và lịch bù, giữ người TikTok thật cùng điểm hiện có; hàng chờ thật tự lấp ghế trống.
+
+Bình luận bất kỳ tự đưa người xem lên đảo (hoặc hàng chờ nếu đủ 200), kể cả sau khi bị loại. Nếu câu hỏi đang mở, chính bình luận đó được tính là câu trả lời đầu tiên; không cần gửi hai lần. Bình luận lúc chờ câu mới chỉ tham gia và hiển thị chat. Mỗi câu trả lời được chốt thành công hiện popup avatar/tên/nội dung khoảng 5 giây, tối đa 3 popup cùng lúc cho cả người thật và bot. Popup không tiết lộ đúng/sai khi chưa chốt câu; trả lời lặp không tạo popup mới.

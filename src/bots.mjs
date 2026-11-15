@@ -127,7 +127,7 @@ export class BotDirector {
       if (departed.length) {
         const p = departed[Math.floor(this.random() * departed.length)];
         this.plans.delete(p.id);
-        this.game.comment(p, "VÔ");
+        this.game.join(p);
         added++;
         continue;
       }
@@ -142,7 +142,7 @@ export class BotDirector {
           avatar: this.avatarBase + "/avatar/" + n + ".svg",
           demo: true,
         };
-      this.game.comment(user, "VÔ");
+      this.game.join(user);
       added++;
     }
   }

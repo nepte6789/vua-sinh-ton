@@ -359,3 +359,64 @@ test("clear simulated players preserves real scores and promotes real waiting pl
   assert.equal(g.players.has("trial"), false);
   assert.equal(g.submissions.has("trial"), false);
 });
+
+test("first answer auto-joins and is scored without requiring a join keyword", () => {
+  const f = setup(),
+    g = f.game;
+  g.start();
+  assert.equal(g.comment(person("new"), g.deck[0].answers[0]).ok, true);
+  assert.equal(g.players.get("new").zone, "island");
+  assert.equal(g.submissions.has("new"), true);
+  assert.equal(g.snapshot().answerEvents.length, 1);
+  assert.equal(g.snapshot().answerEvents[0].name, "Người new");
+  assert.equal(g.snapshot().answerEvents[0].correct, undefined);
+  assert.equal(g.comment(person("new"), "second").reason, "locked");
+  assert.equal(g.snapshot().answerEvents.length, 1);
+  f.close();
+  assert.equal(g.players.get("new").points, 10);
+});
+test("ordinary lobby comments join; empty comments do not join; eliminated users rejoin by answering", () => {
+  const f = setup(),
+    g = f.game;
+  assert.equal(g.comment(person("empty"), "  ").reason, "empty");
+  assert.equal(g.players.size, 0);
+  assert.equal(g.comment(person("new"), "Xin chào").ok, true);
+  g.start();
+  for (let i = 0; i < 3; i++) {
+    f.close();
+    f.next();
+  }
+  assert.equal(g.players.get("new").zone, "out");
+  assert.equal(
+    g.comment(person("new"), g.deck[g.number - 1].answers[0]).ok,
+    true,
+  );
+  assert.equal(g.players.get("new").zone, "island");
+  assert.equal(g.players.get("new").strikes, 0);
+});
+test("auto-join respects 200 capacity and FIFO while waiting players can answer", () => {
+  const { game: g } = setup();
+  for (let i = 0; i < 200; i++) g.comment(person(i), "hello");
+  g.start();
+  g.comment(person("waiting1"), "hello");
+  g.comment(person("waiting2"), "hello");
+  assert.equal(g.island().length, 200);
+  assert.equal(g.players.get("waiting1").zone, "waiting");
+  assert.equal(g.players.get("waiting2").zone, "waiting");
+  assert.equal(g.submissions.has("waiting1"), true);
+  assert.ok(
+    g.players.get("waiting1").joined < g.players.get("waiting2").joined,
+  );
+});
+test("answer popups expire, reset between questions and include bots without duplicate submissions", () => {
+  const f = setup(),
+    g = f.game;
+  g.start();
+  g.comment({ ...person("bot"), demo: true }, "test");
+  assert.equal(g.snapshot().answerEvents.length, 1);
+  f.advance(5000);
+  assert.equal(g.snapshot().answerEvents.length, 0);
+  f.close();
+  f.next();
+  assert.equal(g.snapshot().answerEvents.length, 0);
+});
